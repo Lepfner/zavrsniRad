@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "../../Atoms/useAuth";
+import useAuth from "../../Atoms/Auth/useAuth";
 
 const RequireAuth = ({ requireAdmin = false, requireUser = false }) => {
   const { auth, isLoggedIn } = useAuth();

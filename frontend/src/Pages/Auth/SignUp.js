@@ -1,7 +1,7 @@
 //Components
 import SuccessPage from "./SuccessPage";
-import axios from "../../Atoms/axios";
-import useAuth from "../../Atoms/useAuth";
+import axios from "../../Atoms/Axios/axios";
+import useAuth from "../../Atoms/Auth/useAuth";
 //Dependencies
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";

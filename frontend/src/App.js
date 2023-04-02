@@ -1,6 +1,6 @@
 import "../src/Styles/App.css";
 import AuthLayout from "./Templates/Login";
-import { AuthProvider } from "./Atoms/authProvider";
+import { AuthProvider } from "./Atoms/Auth/authProvider";
 import {
   Login,
   SignUp,
@@ -10,6 +10,7 @@ import {
   Unauthorized,
 } from "./Pages/Auth";
 import ErrorPage from "./Pages/404";
+import Contact from './Pages/Contact'
 import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 
@@ -27,17 +28,13 @@ function App() {
             <Route path="/Recovery" element={<Recovery />} />
             <Route path="*" element={<ErrorPage />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
-            {/*
-            <Route element={<RequireAuth requireUser={true}/>}>
-              <Route path="/Main" element={<Dashboard />} />
+            <Route element={<RequireAuth requireUser={true} />}>
+              {/*<Route path="/Main" element={<Dashboard />} />
               <Route path="/Setup" element={<ProfileSetup />} />
               <Route path="/MyProfile" element={<MyProfilePage />} />
-              <Route path="/Profile/:id" element={<UserProfile />} />
-            </Route> 
-            <Route element={<RequireAuth />}>
-              <Route path="/Settings" element={<Settings />} />
+              <Route path="/Profile/:id" element={<UserProfile />} />*/}
+              <Route path="/Settings" element={<Contact />} />
             </Route>
-          */}
           </Route>
         </Routes>
       </BrowserRouter>
