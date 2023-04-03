@@ -33,14 +33,15 @@ function App() {
             <Route path="/unauthorized" element={<Unauthorized />} />
           </Route>
           <Route element={<MainLayout />}>
-            <Route path="/Settings" element={<Contact />} />
-            {/*<Route path="/Main" element={<Dashboard />} />
+            <Route element={<RequireAuth />}>
+              <Route path="/Settings" element={<Contact />} />
+              {/*<Route path="/Main" element={<Dashboard />} />
               <Route path="/MyProfile" element={<MyProfilePage />} />
               <Route path="/Profile/:id" element={<UserProfile />} />*/}
+              <Route path="/Setup" element={<ProfileSetup />} />
+              <Route path="/Success" element={<Success />} />
+            </Route>
           </Route>
-          <Route element={<RequireAuth requireUser={true} />}></Route>
-          <Route path="/Setup" element={<ProfileSetup />} />
-          <Route path="/Success" element={<Success />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

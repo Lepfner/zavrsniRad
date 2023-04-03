@@ -21,7 +21,7 @@ const SignUp = () => {
       toast.error("Passwords do not match!");
       return;
     }
-    const toastId = toast.loading("Pending")
+    const toastId = toast.loading("Pending");
     try {
       const response = await axios.post(
         "/register",
@@ -31,17 +31,17 @@ const SignUp = () => {
           withCredentials: true,
         }
       );
-      toast.success("successful registration!", {id:toastId});
+      toast.success("successful registration!", { id: toastId });
       setIsRegisterd(true);
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", true);
 
       const { id, is_admin } = response?.data;
-      setAuth({ email, password, id, is_admin})
+      setAuth({ email, password, id, is_admin });
       navigate("/Setup");
     } catch (err) {
       console.log(err);
-      toast.error("email already taken!", {id:toastId});
+      toast.error("email already taken!", { id: toastId });
     }
     setEmail("");
     setPassword("");
@@ -50,7 +50,7 @@ const SignUp = () => {
 
   return (
     <div
-      className="flex flex-col justify-center pl-8 pb-12 
+      className="font-custom flex flex-col justify-center pl-8 pb-12 
                   lg:w-full md:w-full max-sm:pl-0 pb-8 w-full"
     >
       {!isRegisterd ? (
@@ -98,19 +98,19 @@ const SignUp = () => {
               <div className="flex  lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
                 <button
                   type="submit"
-                  className="block bg-orange-500 px-4 rounded-md p-2 mt-4 text-white 
-              hover:bg-orange-600"
+                  className="block bg-green-400 px-4 rounded-md p-2 mt-4 text-white 
+              hover:bg-green-500"
                 >
                   SIGN-UP
                 </button>
               </div>
             </form>
             <div
-              className=" flex flex-col items-center border-solid border-2  border-l-orange-500 
+              className=" flex flex-col items-center border-solid border-2 border-t-green-400 sm:border-t-0 sm:border-l-green-400 
           lg:h-80 pt-6 md:w-2/5 max-sm:h-auto pt-0 mt-4"
             >
-              <p className="text mb-4 font-bold w-4/5 lg:pl-4 max-sm:pl-0">
-                Already have account? <Link to="/Login">Login</Link>
+              <p className="underline mb-4 font-bold w-4/5 lg:pl-4 max-sm:pl-0">
+                <Link to="/Login">Login with existing account</Link>
               </p>
             </div>
           </div>
