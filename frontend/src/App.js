@@ -9,6 +9,7 @@ import {
   RequireAuth,
   Recovery,
   Unauthorized,
+  ChangePass,
 } from "./Pages/Auth";
 import ErrorPage from "./Pages/404";
 import Contact from "./Pages/Contact";
@@ -31,6 +32,7 @@ function App() {
             <Route path="/Recovery" element={<Recovery />} />
             <Route path="*" element={<ErrorPage />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/reset" element={<ChangePass />} />
           </Route>
           <Route element={<MainLayout />}>
             <Route element={<RequireAuth />}>

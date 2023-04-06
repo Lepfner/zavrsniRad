@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOut, faGear, faUser } from "@fortawesome/free-solid-svg-icons";
 //import JuicyLogo from "../images/logo.png";
@@ -11,19 +11,6 @@ export default function Header() {
 
   const { setAuth, setIsLoggedIn } = useAuth();
 
-  const [currentLogo, setCurrentLogo] = useState("");
-  const logo = localStorage.getItem("logoCurrent");
-
-  useEffect(() => {
-    if (localStorage.getItem("logoCurrent") === "black") {
-      //setCurrentLogo(BlackLogo);
-    }
-    if (localStorage.getItem("logoCurrent") === "white") {
-      //setCurrentLogo(JuicyLogo);
-    }
-
-  }, [logo])
-
   function handleLogout()  {
     localStorage.setItem("isLoggedIn", false);
     setAuth({});
@@ -33,17 +20,19 @@ export default function Header() {
 
   const navigate = useNavigate();
   return (
-    <div className="flex justify-between bg-skin-primary pt-7 pb-7 ">
+    <div className="flex justify-between bg-green-500 pt-7 pb-7 ">
       <div className="md:ml-10 min-w-[50%]">
         <button onClick={() => navigate("/Main")}>
-          <img src={currentLogo} alt="" className="h-20 text-skin-a11y" />
+          {/* Add logo
+          <img src={currentLogo} alt="" className="h-20" />
+          */}
         </button>
       </div>
       <div className="flex">
         <button>
           <FontAwesomeIcon onClick={() => navigate("/MyProfile")}
             id="logoIcon"
-            className="hidden md:flex mr-14 hover:animate-pulse text-skin-a11y"
+            className="hidden md:flex mr-14 hover:animate-pulse"
             icon={faUser}
             size="2x"
           />
@@ -51,7 +40,7 @@ export default function Header() {
         <button onClick={() => navigate("/Settings")}>
           <FontAwesomeIcon
             id="settingsIcon"
-            className="hidden md:flex mr-14 hover:animate-spin text-skin-a11y"
+            className="hidden md:flex mr-14 hover:animate-spin"
             icon={faGear}
             size="2x"
           />
@@ -59,7 +48,7 @@ export default function Header() {
         <button onClick={() => handleLogout()}>
           <FontAwesomeIcon
             id="logoutIcon"
-            className="hidden md:flex mr-10 hover:animate-ping text-skin-a11y"
+            className="hidden md:flex mr-10 hover:animate-ping"
             icon={faSignOut}
             size="2x"
           />
