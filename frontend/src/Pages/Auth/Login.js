@@ -26,20 +26,14 @@ const Login = () => {
       );
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", true);
-      const { id, is_admin } = response?.data;
-      setAuth({ email, password, id, is_admin });
-      if (is_admin) {
-        toast.success("redirected to admin login", { id: toastId });
-        navigate("/AdminLogin");
-      } else {
-        toast.success("successful login!", { id: toastId });
-        navigate("/main");
-      }
+      const { id } = response?.data;
+      setAuth({ email, password, id });
+      toast.success("successful login!", { id: toastId });
+      navigate("/main");
     } catch (err) {
       console.log(err);
       toast.error("incorrect email or password", { id: toastId });
     }
-
     setEmail("");
     setPassword("");
   };

@@ -5,8 +5,8 @@ const Success = () => {
   const navigate = useNavigate();
   return (
     <div className="w-full flex flex-col items-center justify-between">
-    <div className="h-24 w-full bg-orange-500 mb-8" />
-    <div className="h-full flex flex-col justify-center max-w-[75%] outline outline-orange-500 outline-[1rem] rounded-xl z-0 w-[100%]">
+    <div className="h-24 w-full bg-green-400 mb-8" />
+    <div className="h-full flex flex-col justify-center max-w-[75%] outline outline-green-400 outline-[1rem] rounded-xl z-0 w-[100%]">
       <div className="w-full rounded-xl p-12 z-10">
         <div className="flex justify-center items-center">
     <div className="mt-20">
@@ -18,7 +18,7 @@ const Success = () => {
                       lg:text-xl md:text-lg sm: text-lg"
       >
         <button
-          className="block bg-orange-500 px-4 rounded-md p-2 mt-4 text-white hover:bg-orange-600"
+          className="block bg-green-400 px-4 rounded-md p-2 mt-4 text-white hover:bg-green-500"
           onClick={() => navigate("/Main")}
         >
           Dashboard
