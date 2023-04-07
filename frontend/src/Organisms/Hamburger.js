@@ -19,12 +19,13 @@ const Hamburger = () => {
         />
       </div>
       <Menu
-        className="burger-menu"
+        className="burger-menu font-custom"
         isOpen={isOpen}
         selectedKey={"entry"}
         onClose={() => setIsOpen(false)}
       >
         <div className="flex flex-col">
+        <Link to="/Main" className="mb-10">Main Page</Link>
         <Link to="/MyProfile" className="mb-10">My Profile</Link>
         <Link to="/Settings" className="mb-10">Settings</Link>
         <Link to="/Login" className="mb-10">Logout</Link>
