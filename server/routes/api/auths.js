@@ -1,13 +1,9 @@
-//packages
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-//imports
 const User = require("../../models/user");
 const OTPverification = require("../../models/OTPverification");
 const sendOTPVerificatonEmail = require("../../verification/sendOTPVerificationEmail");
-
-//Log in
 
 router.post("/login", async (req, res) => {
   try {
@@ -24,12 +20,7 @@ router.post("/login", async (req, res) => {
     if (!validPassword)
       return res.status(401).json({ message: "Authentication failed" });
 
-    if (user.dataValues.is_admin) {
-      //Poslati na dodatan authentication & 6-digit code verify
-      sendOTPVerificatonEmail(user, res);
-    } else {
-      res.status(200).json(user);
-    }
+    res.status(200).json(user);
   } catch (error) {
     res.send(error);
   }
@@ -43,15 +34,12 @@ router.post("/register", async (req, res) => {
   else {
     try {
       //Hash password
-
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
       const newUser = await User.create({
         id: Date.now(),
         email: req.body.email,
-        password_digest: hashedPassword,
-        is_admin: "0",
-        created_at: new Date(),
+        password_digest: hashedPassword, 
       });
 
       res.status(201).json(newUser);
