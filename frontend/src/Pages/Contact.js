@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-//import Header from '../dashboard/Header';
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 
@@ -13,7 +12,7 @@ export default function Settings() {
   }
 
   useEffect(() => {
-    //checkUserToken();
+    checkUserToken();
   });
 
   const form = useRef();
@@ -22,7 +21,7 @@ export default function Settings() {
 
     emailjs
       .sendForm(
-        "service_l72z64l",
+        "service_v43f1xh",
         "template_mu6s50h",
         form.current,
         "M-karua9jmM9OyLKr"
@@ -89,7 +88,7 @@ export default function Settings() {
               Made by Andrija Lerner
               <br />
             </div>
-            <div className="mt-4">Email contact: alerne00@fesb.hr</div>
+            <div className="mt-4"><a href="mailto:alerne00@fesb.hr" target="_blank" rel="noreferrer">Email contact: alerne00@fesb.hr</a></div>
           </div>
         </div>
       </div>
