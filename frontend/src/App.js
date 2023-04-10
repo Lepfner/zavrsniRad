@@ -13,6 +13,8 @@ import {
 } from "./Pages/Auth";
 import ErrorPage from "./Pages/404";
 import Contact from "./Pages/Contact";
+import Dashboard from "./Pages/Dashboard/Main";
+import Profile from './Pages/Dashboard/Profile';
 import ProfileSetup from "./Pages/ProfileSetup/profileSetup";
 import Success from "./Pages/ProfileSetup/Success";
 import { Toaster } from "react-hot-toast";
@@ -28,7 +30,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/SignUp" element={<SignUp />} />
-            <Route path="/Confirmation" element={<Confirmation />} />
+            <Route path="/Confirm" element={<Confirmation />} />
             <Route path="/Recovery" element={<Recovery />} />
             <Route path="*" element={<ErrorPage />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
@@ -40,10 +42,9 @@ function App() {
           </Route>
           <Route element={<MainLayout />}>
             <Route element={<RequireAuth />}>
-              <Route path="/Settings" element={<Contact />} />
-              {/*<Route path="/Main" element={<Dashboard />} />
-              <Route path="/MyProfile" element={<MyProfilePage />} />
-              <Route path="/Profile/:id" element={<UserProfile />} />*/}
+              <Route path="/Contact" element={<Contact />} />
+              <Route path="/Main" element={<Dashboard />} />
+              <Route path="/Profile/:id" element={<Profile />} />
             </Route>
           </Route>
         </Routes>

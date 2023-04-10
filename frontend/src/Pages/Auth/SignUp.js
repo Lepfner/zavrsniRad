@@ -1,11 +1,10 @@
-//Components
 import SuccessPage from "./SuccessPage";
 import axios from "../../Atoms/Axios/axios";
 import useAuth from "../../Atoms/Auth/useAuth";
-//Dependencies
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import GreenBtn from "../../Atoms/GreenBtn";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -96,13 +95,11 @@ const SignUp = () => {
                 } h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5`}
               />
               <div className="flex  lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
-                <button
-                  type="submit"
-                  className="block bg-green-400 px-4 rounded-md p-2 mt-4 text-white 
-              hover:bg-green-500"
-                >
-                  SIGN-UP
-                </button>
+                <GreenBtn
+                  text="SIGN-UP"
+                  handleClick={() => handleSubmit()}
+                  type="Submit"
+                />
               </div>
             </form>
             <div

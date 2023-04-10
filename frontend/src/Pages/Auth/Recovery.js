@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GreenBtn from "../../Atoms/GreenBtn";
 
 const Recovery = () => {
   const [email, setEmail] = useState("");
@@ -26,20 +27,16 @@ const Recovery = () => {
             } h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5`}
           />
           <div className="flex lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
-            <button
-              type="submit"
-              className="block bg-green-400 px-4 rounded-md p-2 mt-4 text-white hover:bg-green-500"
-            >
-              SEND
-            </button>
-
-            <button
+            <GreenBtn
+              text="SEND"
+              handleClick={() => console.log("send")}
+              type="Submit"
+            />
+            <GreenBtn
+              text="BACK"
+              handleClick={() => navigate("/Login")}
               type="button"
-              className="block bg-green-400 px-4 rounded-md p-2 mt-4 text-white hover:bg-green-500"
-              onClick={() => navigate("/Login")}
-            >
-              BACK
-            </button>
+            />
           </div>
         </form>
         <div

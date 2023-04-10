@@ -1,11 +1,10 @@
-//Components
 import SuccessPage from "./SuccessPage";
 import axios from "../../Atoms/Axios/axios";
 import useAuth from "../../Atoms/Auth/useAuth";
-//Dependencies
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import GreenBtn from "../../Atoms/GreenBtn";
 
 const ChangePass = () => {
   const [email, setEmail] = useState("");
@@ -56,7 +55,7 @@ const ChangePass = () => {
       {!isRegisterd ? (
         <>
           <h1 className="lg:text-6xl mb-6 md: text-5xl sm: text-4xl">
-           NEW PASSWORD:
+            NEW PASSWORD:
           </h1>
           <div
             className="w-full flex flex-col lg:text-lg md:flex-row text-base 
@@ -86,20 +85,16 @@ const ChangePass = () => {
                 } h-14 px-2 rounded-lg bg-gray-300 mb-6 w-full lg:w-4/5 md:w-4/5`}
               />
               <div className="flex  lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
-                <button
-                  type="submit"
-                  className="block bg-green-400 px-4 rounded-md p-2 mt-4 text-white 
-              hover:bg-green-500"
-                >
-                  RESET
-                </button>
-                <button
-                  onClick={() => navigate("/recovery")}
-                  className="block bg-green-400 px-4 rounded-md p-2 mt-4 text-white 
-              hover:bg-green-500"
-                >
-                  BACK
-                </button>
+                <GreenBtn
+                  text="RESET"
+                  handleClick={() => console.log("reset")}
+                  type="Submit"
+                />
+                <GreenBtn
+                  text="BACK"
+                  handleClick={() => navigate("/Recovery")}
+                  type="button"
+                />
               </div>
             </form>
             <div

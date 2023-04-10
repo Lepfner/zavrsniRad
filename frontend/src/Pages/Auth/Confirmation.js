@@ -1,12 +1,36 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "../../Atoms/Axios/axios";
+import useAuth from "../../Atoms/Auth/useAuth";
+import { toast } from "react-hot-toast";
+import GreenBtn from "../../Atoms/GreenBtn";
 
 const Confirmation = () => {
   const [authCode, setAuthCode] = useState("");
   const navigate = useNavigate();
+  const { auth, isLoggedIn } = useAuth();
+  const { id } = auth;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const toastId = toast.loading("Pending");
+    try {
+      const response = await axios.post(
+        "/verifyOTP",
+        JSON.stringify({ userId: id, otp: authCode }),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log(response);
+      console.log(auth, isLoggedIn);
+      toast.success("Verification successful!", { id: toastId });
+      navigate("/AdminPanel");
+    } catch (error) {
+      console.log(error);
+      toast.error("invalid or expired OTP, try again!", { id: toastId });
+    }
+
     setAuthCode("");
   };
 
@@ -31,20 +55,16 @@ const Confirmation = () => {
             } h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5`}
           />
           <div className="flex  lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
-            <button
-              type="submit"
-              className="block bg-green-400 px-4 rounded-md p-2 mt-4 text-white hover:bg-green-500"
-            >
-              SEND
-            </button>
-
-            <button
+            <GreenBtn
+              text="SEND"
+              handleClick={() => console.log("send")}
+              type="Submit"
+            />
+            <GreenBtn
+              text="BACK"
+              handleClick={() => navigate("/Recovery")}
               type="button"
-              className="block bg-green-400 px-4 rounded-md text-white p-2 mt-4 hover:bg-green-500"
-              onClick={() => navigate("/SignUp")}
-            >
-              BACK
-            </button>
+            />
           </div>
         </form>
         <div
@@ -52,8 +72,8 @@ const Confirmation = () => {
                          lg:h-44 text-base md:w-2/5 max-sm:h-auto"
         >
           <p className="mb-4 font-bold w-4/5 lg:pl-2 max-sm:pl-0">
-            Enter the code that was sent to your mail so we can confirm your
-            registration.
+            Enter the code that was sent to your mail so we can confirm it is
+            indeed you.
           </p>
         </div>
       </div>

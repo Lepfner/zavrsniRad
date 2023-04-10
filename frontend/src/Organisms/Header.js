@@ -22,12 +22,12 @@ export default function Header() {
     <div className="flex justify-between bg-green-500 pt-7 pb-7 ">
       <div className="md:ml-10 min-w-[50%]">
         <button onClick={() => navigate("/Main")}>
-          <img src={logo} alt="" className="h-10" />
+          <img src={logo} alt="" className="h-10 ml-10 sm:ml-0" />
         </button>
       </div>
       <div className="flex">
-        <button>
-          <FontAwesomeIcon onClick={() => navigate("/MyProfile")}
+        <button onClick={() => navigate("/Profile/:id")}>
+          <FontAwesomeIcon
             id="logoIcon"
             className="hidden md:flex mr-14 hover:animate-pulse"
             icon={faUser}
@@ -35,7 +35,7 @@ export default function Header() {
             color="white"
           />
         </button>
-        <button onClick={() => navigate("/Settings")}>
+        <button onClick={() => navigate("/Contact")}>
           <FontAwesomeIcon
             id="settingsIcon"
             className="hidden md:flex mr-14 hover:animate-spin"
