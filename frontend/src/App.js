@@ -36,9 +36,9 @@ function App() {
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/reset" element={<ChangePass />} />
           </Route>
+          <Route path="/Success" element={<Success />} />
           <Route element={<RequireAuth />}>
             <Route path="/Setup" element={<ProfileSetup />} />
-            <Route path="/Success" element={<Success />} />
           </Route>
           <Route element={<MainLayout />}>
             <Route element={<RequireAuth />}>
