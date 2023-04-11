@@ -56,11 +56,13 @@ const Confirmation = () => {
           />
           <div className="flex  lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
             <GreenBtn
+              variant={1}
               text="SEND"
               handleClick={() => console.log("send")}
               type="Submit"
             />
             <GreenBtn
+              variant={1}
               text="BACK"
               handleClick={() => navigate("/Recovery")}
               type="button"

@@ -12,7 +12,7 @@ import {
   ChangePass,
 } from "./Pages/Auth";
 import ErrorPage from "./Pages/404";
-import Contact from "./Pages/Contact";
+import Contact from "./Pages/Dashboard/Contact";
 import Dashboard from "./Pages/Dashboard/Main";
 import Profile from './Pages/Dashboard/Profile';
 import ProfileSetup from "./Pages/ProfileSetup/profileSetup";

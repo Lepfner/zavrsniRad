@@ -83,8 +83,18 @@ const Login = () => {
               } h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5`}
             />
             <div className="flex  lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
-              <GreenBtn text="LOGIN" handleClick={() => handleSubmit()} type="Submit"/>
-              <GreenBtn text="SIGN-UP" handleClick={() => navigate("/SignUp")} type="button"/>
+              <GreenBtn
+                variant={1}
+                text="LOGIN"
+                handleClick={() => handleSubmit()}
+                type="Submit"
+              />
+              <GreenBtn
+                variant={1}
+                text="SIGN-UP"
+                handleClick={() => navigate("/SignUp")}
+                type="button"
+              />
             </div>
           </form>
           <div

@@ -96,6 +96,7 @@ const SignUp = () => {
               />
               <div className="flex  lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
                 <GreenBtn
+                  variant={1}
                   text="SIGN-UP"
                   handleClick={() => handleSubmit()}
                   type="Submit"
