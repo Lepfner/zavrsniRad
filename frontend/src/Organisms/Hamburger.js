@@ -23,7 +23,6 @@ const Hamburger = () => {
     <>
       <div onClick={() => setIsOpen(!isOpen)}>
         <FontAwesomeIcon
-          id="logoIcon"
           className="mr-10 hover:animate-pulse text-skin-a11y"
           icon={faBars}
           size="2x"

@@ -28,7 +28,6 @@ export default function Header() {
       <div className="flex">
         <button onClick={() => navigate("/Profile/:id")}>
           <FontAwesomeIcon
-            id="logoIcon"
             className="hidden md:flex mr-14 hover:animate-pulse"
             icon={faUser}
             size="2x"
@@ -37,7 +36,6 @@ export default function Header() {
         </button>
         <button onClick={() => navigate("/Contact")}>
           <FontAwesomeIcon
-            id="settingsIcon"
             className="hidden md:flex mr-14 hover:animate-spin"
             icon={faGear}
             size="2x"
@@ -46,7 +44,6 @@ export default function Header() {
         </button>
         <button onClick={() => handleLogout()}>
           <FontAwesomeIcon
-            id="logoutIcon"
             className="hidden md:flex mr-10 hover:animate-ping"
             icon={faSignOut}
             size="2x"

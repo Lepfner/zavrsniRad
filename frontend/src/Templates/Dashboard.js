@@ -7,7 +7,7 @@ export default function Dashboard({ children }) {
     <div className="h-screen w-full">
       <Header />
       <div className="h-5/6 w-full flex justify-center">
-        <div className="h-full lg:w-full md: w-10/12">
+        <div className="h-full lg:w-full md:w-10/12">
           {children}
           <Outlet />
         </div>

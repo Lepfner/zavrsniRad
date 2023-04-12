@@ -34,12 +34,12 @@ export default function Main() {
 
   return (
     <div className="font-custom h-full w-full flex flex-col items-center">
-      <div className="mt-10 sm:mt-20 flex flex-col sm:flex-row items-center justify-start sm:items-start sm:justify-center gap-4 bg-gray-500 w-11/12 sm:w-2/3 lg:w-1/2 p-4 rounded-lg shadow-xl">
+      <div className="mt-10 sm:mt-20 flex flex-col sm:flex-row items-center justify-start sm:items-start sm:justify-center gap-4 bg-gray-500 w-11/12 sm:w-2/3 p-4 rounded-lg shadow-xl">
         <div className="flex flex-col w-full sm:w-2/6">
-          <GreenBtn text="Add" variant={2} type="button" />
+          <GreenBtn text="Add New" variant={2} type="button" />
           <Filter />
         </div>
-        <div className="flex flex-col w-full sm:w-4/6">
+        <div className="flex flex-col w-full sm:w-4/6 mb-4">
           <Search search={(q) => setQuery(q)} />
           <Results items={items}/>
         </div>
