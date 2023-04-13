@@ -56,6 +56,11 @@ const User = sequelize.define(
       type: Sequelize.routes,
       required: false,
       allowNull: true,
+    },
+    favourites: {
+      type: Sequelize.routes,
+      required: false,
+      allowNull: true,
     }
   },
   {

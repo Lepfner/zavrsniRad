@@ -4,65 +4,98 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import Checkbox from "@mui/material/Checkbox";
+import Autocomplete from "react-google-autocomplete";
+import GreenBtn from "../Atoms/GreenBtn";
 
 export default function Filter() {
-  const [ageValue, setAgeValue] = useState([18, 99]);
-  const [genderValue, setGenderValue] = useState("");
-  const [statusValue, setStatusValue] = useState("");
+  const [lengthValue, setLengthValue] = useState([1, 100]);
+  const [locationValue, setLocationValue] = useState("");
+  const [dateValue, setDateValue] = useState("");
+  const [diffValue, setDiffValue] = useState("");
+  const [checked, setChecked] = useState(true);
 
+  //ALWAYS SHOW MORE STARRED ROUTES FIRST
   return (
     <>
-      <form
-        className="flex flex-col bg-white rounded-xl mt-4 pb-4 px-4 relative"
-      >
-        <label className="m-auto pt-[20px]">Age range:</label>
+      <form className="flex flex-col bg-white rounded-xl mt-4 pb-4 px-4 relative">
+        <label className="m-auto pt-[20px]">Length in miles:</label>
         <div className="px-[30px]">
           <Slider
-            getAriaLabel={() => "Age range"}
-            value={ageValue}
-            onChange={(e) => setAgeValue(e.target.value)}
+            getAriaLabel={() => "Length"}
+            value={lengthValue}
+            onChange={(e) => setLengthValue(e.target.value)}
             valueLabelDisplay="auto"
-            max={99}
-            min={18}
+            max={100}
+            min={1}
           />
         </div>
-        <div>
-          <FormControl>
-            <label>Gender</label>
-            <RadioGroup
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              value={genderValue}
-              onChange={(e) => setGenderValue(e.target.value)}
-              sx={{}}
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-            </RadioGroup>
-          </FormControl>
+        <label className="m-auto">Location:</label>
+        <div className="px-[20px]">
+          <Autocomplete
+            required
+            value={locationValue}
+            onChange={(e) => setLocationValue(e.target.value)}
+            className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full"
+            apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
+            onPlaceSelected={(place) => {
+              console.log(place);
+            }}
+          />
         </div>
-        <label className="m-auto">Eye Color:</label>
-        <select
-          name="relationshipStatus"
-          className="m-auto max-w-min bg-gray-300"
-          value={statusValue}
-          onChange={(e) => setStatusValue(e.target.value)}
-        >
-          <option value="Green">Green</option>
-          <option value="Blue">Blue</option>
-          <option value="Brown">Brown</option>
-          <option value="Other">Other</option>
-        </select>
-        <button
-          type="submit"
-          className="block max-w-min m-auto pb-[5px] bg-skin-primary px-4 rounded-md p-2 mt-4 text-skin-a11y"
-        >
-          Apply
-        </button>
+        <FormControl>
+          <label>Newest/Oldest:</label>
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={dateValue}
+            onChange={(e) => setDateValue(e.target.value)}
+          >
+            <FormControlLabel
+              value="Newest"
+              control={<Radio />}
+              label="Newest"
+            />
+            <FormControlLabel
+              value="Oldest"
+              control={<Radio />}
+              label="Oldest"
+            />
+          </RadioGroup>
+          <label>Easy/Intermediate/Advanced:</label>
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={diffValue}
+            onChange={(e) => setDiffValue(e.target.value)}
+          >
+            <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
+            <FormControlLabel
+              value="Intermediate"
+              control={<Radio />}
+              label="Intermediate"
+            />
+            <FormControlLabel
+              value="Advanced"
+              control={<Radio />}
+              label="Advanced"
+            />
+          </RadioGroup>
+        </FormControl>
+        <div>
+          <label className="m-auto">Favourites:</label>
+          <Checkbox
+            checked={checked}
+            onChange={(e) => setChecked(e.target.value)}
+            inputProps={{ "aria-label": "controlled" }}
+          />
+        </div>
+        <GreenBtn
+          variant={1}
+          text="APPLY"
+          handleClick={() => console.log("Filter")}
+          type="button"
+        />
       </form>
     </>
   );
