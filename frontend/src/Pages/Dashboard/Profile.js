@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Location from "../../Images/Location.png";
 import empty_avatar from "../../Images/Avatar.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../Atoms/Axios/axios";
 import useAuth from "../../Atoms/Auth/useAuth";
+import Result from "../../Molecules/Result";
 
 const ProfilePage = () => {
   const { userSet, setUser, auth } = useAuth();
   const navigate = useNavigate();
-  const [current, setCurrent] = useState(true);
+  const myAccount = true;
 
   function checkUserToken() {
     if (localStorage.getItem("isLoggedIn") === "false") {
@@ -63,7 +64,7 @@ const ProfilePage = () => {
                   >
                     {userSet.email}alerne00@fesb.hr
                   </a>
-                  {current && (
+                  {myAccount && (
                     <button
                       type="button"
                       className="bg-gray-700 hover:bg-green-500 duration-200 px-4 w-36 rounded-md p-2 mt-4 text-white lg:text-xl md:text-lg sm: text-lg"
@@ -87,9 +88,12 @@ const ProfilePage = () => {
                 </div>
               </section>
             </div>
-            <section className="w-[90%] min-h-[22rem] bg-slate-300 mx-4 rounded-xl py-4 px-8 sm:overflow-y-hidden overflow-y-scroll overflow-x-hidden">
-              <h2 className="text-center text-2xl">Routes</h2>
-              <p className="text-lg">{userSet.routes}</p>
+            <section className="w-[90%] h-[71rem] sm:h-[22rem] bg-slate-300 mx-4 rounded-xl py-4 px-8 overflow-y-scroll overflow-x-hidden">
+              <h2 className="text-center text-2xl mb-4">User's routes</h2>
+              {userSet.routes}
+              <Link to="/route/1"><Result/></Link>
+              <Link to="/route/1"><Result/></Link>
+              <Link to="/route/1"><Result/></Link>
             </section>
           </div>
         </div>
