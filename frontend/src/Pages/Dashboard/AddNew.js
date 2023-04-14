@@ -62,7 +62,7 @@ function AddNew() {
   };
 
   useEffect(() => {
-    //checkUserToken();
+    checkUserToken();
   }, []);
 
   const updateData = (fields) => {
