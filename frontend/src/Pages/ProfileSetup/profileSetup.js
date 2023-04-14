@@ -12,7 +12,7 @@ const initialData = {
   surname: "",
   username: "",
   location: "",
-  profileimg: "",
+  profileimg: [],
   about: "",
 };
 
@@ -47,9 +47,9 @@ function ProfileSetup() {
   }
 
   const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
     console.log(imageList, addUpdateIndex);
     setImages(imageList);
+    formData.profileimg=images;
   };
 
   useEffect(() => {

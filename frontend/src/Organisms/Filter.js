@@ -62,14 +62,17 @@ export default function Filter() {
               label="Oldest"
             />
           </RadioGroup>
-          <label>Easy/Intermediate/Advanced:</label>
+          <label>Beginner/Intermediate/Advanced:</label>
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
             value={diffValue}
             onChange={(e) => setDiffValue(e.target.value)}
           >
-            <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
+            <FormControlLabel 
+            value="Beginner" 
+            control={<Radio />} 
+            label="Beginner" />
             <FormControlLabel
               value="Intermediate"
               control={<Radio />}

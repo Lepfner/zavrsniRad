@@ -8,20 +8,30 @@ import axios from "../../Atoms/Axios/axios";
 import Autocomplete from "react-google-autocomplete";
 import ImageUploading from "react-images-uploading";
 import GreenBtn from "../../Atoms/GreenBtn";
-const initialData = {
+import Select from "react-select";
+
+const routeData = {
   name: "",
-  surname: "",
-  username: "",
   location: "",
-  profileimg: "",
+  geography: "",
+  images: [],
   about: "",
+  length: 0,
+  difficulty: "",
 };
+
+const options = [
+  { value: "Beginner", label: "Beginner" },
+  { value: "Intermediate", label: "Intermediate" },
+  { value: "Advanced", label: "Advanced" },
+];
 
 function AddNew() {
   const navigate = useNavigate();
   const { userSet } = useAuth();
+  const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState(
-    isEmptyObject(userSet) ? initialData : userSet
+    isEmptyObject(userSet) ? routeData : userSet
   );
 
   const [images, setImages] = useState([]);
@@ -46,9 +56,9 @@ function AddNew() {
   }
 
   const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
     console.log(imageList, addUpdateIndex);
     setImages(imageList);
+    routeData.images = imageList;
   };
 
   useEffect(() => {
@@ -84,28 +94,6 @@ function AddNew() {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
               />
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
-                Surname:
-              </p>
-              <input
-                required
-                value={formData.surname}
-                onChange={(e) => updateData({ surname: e.target.value })}
-                type="text"
-                className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
-                placeholder="Surname"
-              />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
-                Username:
-              </p>
-              <input
-                required
-                value={formData.username}
-                onChange={(e) => updateData({ username: e.target.value })}
-                type="text"
-                className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
-                placeholder="Username"
-              />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
                 Location:
               </p>
               <Autocomplete
@@ -119,6 +107,28 @@ function AddNew() {
                 }}
               />
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+                Geography:
+              </p>
+              <input
+                required
+                value={formData.geography}
+                onChange={(e) => updateData({ geography: e.target.value })}
+                type="text"
+                className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
+                placeholder="Geo Data"
+              />
+              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+                Length (in miles):
+              </p>
+              <input
+                required
+                value={formData.length}
+                onChange={(e) => updateData({ length: e.target.value })}
+                type="number"
+                className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
+                placeholder="Username"
+              />
+              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
                 About:
               </p>
               <input
@@ -129,8 +139,17 @@ function AddNew() {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 placeholder="About"
               />
+              <p className=" lg:text-3xl mb-4 md: text-2xl sm: text-xl">
+                Difficulty:
+              </p>
+              <Select
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options}
+                className="focus:outline-none h-14 px-2 rounded-lg mb-8 w-full lg:w-4/5 md:w-4/5"
+              />
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
-                Profile Image:
+                Images:
               </p>
               <ImageUploading
                 multiple
@@ -149,7 +168,7 @@ function AddNew() {
                   dragProps,
                 }) => (
                   // write your building UI
-                  <div className="upload__image-wrapper focus:outline-none h-40 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-1/5 md:w-1/5">
+                  <div className="upload__image-wrapper focus:outline-none h-40 px-2 rounded-lg bg-gray-300 mb-8 w-full sm:w-2/5">
                     <button
                       style={isDragging ? { color: "red" } : undefined}
                       onClick={onImageUpload}

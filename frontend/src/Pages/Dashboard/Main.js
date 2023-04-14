@@ -28,7 +28,7 @@ export default function Main() {
   }
 
   useEffect(() => {
-    //checkUserToken();
+    checkUserToken();
     fetch();
   }, [query]);
 
