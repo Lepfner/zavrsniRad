@@ -49,6 +49,23 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.post("/changepass/:id", async (req, res) => {
+  const emailTaken = await User.findOne({ where: { email: req.body.email } });
+
+    try {
+      //Hash password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      const newUser = await User.update({
+        password_digest: hashedPassword, 
+      });
+
+      res.status(201).json(newUser);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+});
+
 router.post("/verifyOTP", async (req, res) => {
   try {
     let { userId, otp } = req.body;
