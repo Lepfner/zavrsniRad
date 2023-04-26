@@ -1,14 +1,43 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GreenBtn from "../../Atoms/GreenBtn";
+import emailjs from "@emailjs/browser";
+import axios from "../../Atoms/Axios/axios";
 
 const Recovery = () => {
   const [email, setEmail] = useState("");
+  const [code, setCode] = useState(0);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setEmail("");
+
+    const emailParams = {
+      to_name: [`${email}`],
+      from_name: "Bike app",
+      message: `Your 5-digit code is ${code}`,
+    };
+
+    axios.get("/code").then((res) => {
+      setCode(res.data);
+    });
+
+    emailjs
+      .send(
+        "service_v43f1xh",
+        "template_pl3h4sm",
+        emailParams,
+        "M-karua9jmM9OyLKr"
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+          navigate("/Confirm");
+        },
+        (err) => {
+          console.log("FAILED...", err);
+        }
+      );
   };
 
   return (

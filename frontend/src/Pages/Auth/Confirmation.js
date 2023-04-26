@@ -25,7 +25,7 @@ const Confirmation = () => {
       console.log(response);
       console.log(auth, isLoggedIn);
       toast.success("Verification successful!", { id: toastId });
-      navigate("/AdminPanel");
+      navigate("/reset");
     } catch (error) {
       console.log(error);
       toast.error("invalid or expired OTP, try again!", { id: toastId });

@@ -12,7 +12,8 @@ const ChangePass = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isRegisterd, setIsRegisterd] = useState(false);
   const navigate = useNavigate();
-  const { setAuth, setIsLoggedIn } = useAuth();
+  const { setAuth, setIsLoggedIn, auth } = useAuth();
+  const { id } = auth;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ const ChangePass = () => {
     const toastId = toast.loading("Pending");
     try {
       const response = await axios.post(
-        "/register",
+        `/changepass/${id}`,
         JSON.stringify({ email, password }),
         {
           headers: { "Content-Type": "application/json" },
@@ -34,10 +35,8 @@ const ChangePass = () => {
       setIsRegisterd(true);
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", true);
-
-      const { id, is_admin } = response?.data;
-      setAuth({ email, password, id, is_admin });
-      navigate("/Setup");
+      setAuth({ email, password, id });
+      navigate("/Main");
     } catch (err) {
       console.log(err);
       toast.error("email already taken!", { id: toastId });
