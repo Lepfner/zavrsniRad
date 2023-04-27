@@ -9,7 +9,6 @@ import GreenBtn from "../../Atoms/GreenBtn";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
   const { setAuth, setIsLoggedIn } = useAuth();
 
@@ -32,8 +31,7 @@ const Login = () => {
       toast.success("successful login!", { id: toastId });
       navigate("/main");
     } catch (err) {
-      console.log(err);
-      toast.error("incorrect email or password", { id: toastId });
+      toast.error("Incorrect email or password", { id: toastId });
     }
     setEmail("");
     setPassword("");

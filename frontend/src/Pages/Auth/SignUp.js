@@ -10,7 +10,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [isRegistered, setIsRegisterd] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
   const { setAuth, setIsLoggedIn } = useAuth();
 
@@ -31,15 +31,13 @@ const SignUp = () => {
         }
       );
       toast.success("successful registration!", { id: toastId });
-      setIsRegisterd(true);
+      setIsRegistered(true);
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", true);
-
       const { id } = response?.data;
       setAuth({ email, password, id });
       navigate("/Setup");
     } catch (err) {
-      console.log(err);
       toast.error("email already taken!", { id: toastId });
     }
     setEmail("");

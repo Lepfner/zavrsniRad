@@ -31,6 +31,7 @@ function ProfileSetup() {
     const toastId = toast.loading("Pending");
     try {
       const formResponse = await axios.put(`/setup/${id}`, formData);
+      console.log(formResponse?.data);
       setIsLoggedIn(true);
       toast.success("succesfull profile setup!", { id: toastId });
       navigate("/Success");
@@ -144,7 +145,6 @@ function ProfileSetup() {
                 {({
                   imageList,
                   onImageUpload,
-                  onImageRemoveAll,
                   onImageUpdate,
                   onImageRemove,
                   isDragging,

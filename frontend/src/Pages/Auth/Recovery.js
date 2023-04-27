@@ -3,41 +3,51 @@ import { useNavigate } from "react-router-dom";
 import GreenBtn from "../../Atoms/GreenBtn";
 import emailjs from "@emailjs/browser";
 import axios from "../../Atoms/Axios/axios";
+import { toast } from "react-hot-toast";
 
 const Recovery = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState(0);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const toastId = toast.loading("Pending");
     const emailParams = {
       to_name: [`${email}`],
       from_name: "Bike app",
       message: `Your 5-digit code is ${code}`,
     };
-
-    axios.get("/code").then((res) => {
-      setCode(res.data);
-    });
-
-    emailjs
-      .send(
-        "service_v43f1xh",
-        "template_pl3h4sm",
-        emailParams,
-        "M-karua9jmM9OyLKr"
-      )
-      .then(
-        (response) => {
-          console.log("SUCCESS!", response.status, response.text);
-          navigate("/Confirm");
-        },
-        (err) => {
-          console.log("FAILED...", err);
-        }
-      );
+    try {
+      const response = await axios.post("/code", JSON.stringify({ email }), {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      setCode(response?.data);
+      localStorage.setItem("searchedUser", email);
+      emailjs
+        .send(
+          "service_v43f1xh",
+          "template_pl3h4sm",
+          emailParams,
+          "M-karua9jmM9OyLKr"
+        )
+        .then(
+          (response) => {
+            console.log("SUCCESS!", response.status, response.text);
+            toast.success("Successful!", { id: toastId });
+            navigate("/Confirm");
+          },
+          (err) => {
+            toast.error("Email could not be sent!", { id: toastId });
+            console.log("FAILED...", err);
+          }
+        );
+      toast.success("Success!", { id: toastId });
+      navigate("/Confirm");
+    } catch (err) {
+      toast.error("User not found!", { id: toastId });
+    }
   };
 
   return (
@@ -59,7 +69,7 @@ const Recovery = () => {
             <GreenBtn
               variant={1}
               text="SEND"
-              handleClick={() => console.log("send")}
+              handleClick={() => handleSubmit()}
               type="Submit"
             />
             <GreenBtn

@@ -7,13 +7,12 @@ import toast from "react-hot-toast";
 import GreenBtn from "../../Atoms/GreenBtn";
 
 const ChangePass = () => {
-  const [email, setEmail] = useState("");
+  var email = `${localStorage.getItem("searchedUser")}`;
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [isRegisterd, setIsRegisterd] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
-  const { setAuth, setIsLoggedIn, auth } = useAuth();
-  const { id } = auth;
+  const { setAuth, setIsLoggedIn } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,24 +23,24 @@ const ChangePass = () => {
     const toastId = toast.loading("Pending");
     try {
       const response = await axios.post(
-        `/changepass/${id}`,
+        `/changepass`,
         JSON.stringify({ email, password }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
-      toast.success("successful registration!", { id: toastId });
-      setIsRegisterd(true);
+      toast.success("Password changed!", { id: toastId });
       setIsLoggedIn(true);
+      setIsRegistered(true);
       localStorage.setItem("isLoggedIn", true);
+      const { id } = response?.data;
       setAuth({ email, password, id });
       navigate("/Main");
     } catch (err) {
       console.log(err);
-      toast.error("email already taken!", { id: toastId });
+      toast.error("Password change failed!", { id: toastId });
     }
-    setEmail("");
     setPassword("");
     setPasswordConfirm("");
   };
@@ -51,7 +50,7 @@ const ChangePass = () => {
       className="font-custom flex flex-col justify-center pl-8 pb-12 
                   lg:w-full md:w-full max-sm:pl-0 pb-8 w-full"
     >
-      {!isRegisterd ? (
+      {!isRegistered ? (
         <>
           <h1 className="lg:text-6xl mb-6 md: text-5xl sm: text-4xl">
             NEW PASSWORD:
@@ -87,7 +86,7 @@ const ChangePass = () => {
                 <GreenBtn
                   variant={1}
                   text="RESET"
-                  handleClick={() => console.log("reset")}
+                  handleClick={() => handleSubmit()}
                   type="Submit"
                 />
                 <GreenBtn

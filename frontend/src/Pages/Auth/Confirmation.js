@@ -1,36 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../Atoms/Axios/axios";
-import useAuth from "../../Atoms/Auth/useAuth";
 import { toast } from "react-hot-toast";
 import GreenBtn from "../../Atoms/GreenBtn";
 
 const Confirmation = () => {
   const [authCode, setAuthCode] = useState("");
   const navigate = useNavigate();
-  const { auth, isLoggedIn } = useAuth();
-  const { id } = auth;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const toastId = toast.loading("Pending");
     try {
       const response = await axios.post(
-        "/verifyOTP",
-        JSON.stringify({ userId: id, otp: authCode }),
+        "/verify",
+        JSON.stringify({ otp: authCode }),
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(response);
-      console.log(auth, isLoggedIn);
+      console.log(response?.data);
       toast.success("Verification successful!", { id: toastId });
       navigate("/reset");
     } catch (error) {
       console.log(error);
-      toast.error("invalid or expired OTP, try again!", { id: toastId });
+      toast.error("Verification failed!", { id: toastId });
     }
-
     setAuthCode("");
   };
 
@@ -41,13 +36,13 @@ const Confirmation = () => {
       </h1>
       <div className="w-full flex flex-col lg:text-lg md:flex-row text-base sm:flex-col ">
         <form className="lg: w-4/5 max-md:w-full" onSubmit={handleSubmit}>
-          <p>6-digit code:</p>
+          <p>5-digit code:</p>
           <input
             required
             value={authCode}
             pattern="[0-9]{1,6}"
-            minLength={6}
-            maxLength={6}
+            minLength={5}
+            maxLength={5}
             onChange={(e) => setAuthCode(e.target.value)}
             type="text"
             className={`${
@@ -58,7 +53,7 @@ const Confirmation = () => {
             <GreenBtn
               variant={1}
               text="SEND"
-              handleClick={() => console.log("send")}
+              handleClick={() => handleSubmit()}
               type="Submit"
             />
             <GreenBtn
