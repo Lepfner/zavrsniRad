@@ -53,12 +53,12 @@ export default function Filter() {
           >
             <FormControlLabel
               value="Newest"
-              control={<Radio />}
+              control={<Radio required={true} />}
               label="Newest"
             />
             <FormControlLabel
               value="Oldest"
-              control={<Radio />}
+              control={<Radio required={true} />}
               label="Oldest"
             />
           </RadioGroup>
@@ -69,18 +69,19 @@ export default function Filter() {
             value={diffValue}
             onChange={(e) => setDiffValue(e.target.value)}
           >
-            <FormControlLabel 
-            value="Beginner" 
-            control={<Radio />} 
-            label="Beginner" />
+            <FormControlLabel
+              value="Beginner"
+              control={<Radio required={true} />}
+              label="Beginner"
+            />
             <FormControlLabel
               value="Intermediate"
-              control={<Radio />}
+              control={<Radio required={true} />}
               label="Intermediate"
             />
             <FormControlLabel
               value="Advanced"
-              control={<Radio />}
+              control={<Radio required={true} />}
               label="Advanced"
             />
           </RadioGroup>
@@ -97,7 +98,7 @@ export default function Filter() {
           variant={1}
           text="APPLY"
           handleClick={() => console.log("Filter")}
-          type="button"
+          type="submit"
         />
       </form>
     </>
