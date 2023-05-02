@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "../../Atoms/Axios/axios";
 import GreenBtn from "../../Atoms/GreenBtn";
+import ImageGallery from 'react-image-gallery';
 
 function Route() {
   const navigate = useNavigate();
-
-  const [items, setItems] = useState([]);
+  const [fetchedRoute, setFetchedRoute] = useState([]);
 
   async function deleteHandler(userID) {
-    if (!window.confirm("confirm to delete user!")) return;
-    const newItems = items.filter((user) => user.id !== userID);
-    setItems(newItems);
-
     try {
       const response = await axios.delete(`/delete/${userID}`);
       console.log(response);
@@ -22,6 +18,21 @@ function Route() {
       toast.error("and error has occured");
     }
   }
+
+  const images = [
+    {
+      original: 'https://picsum.photos/id/1018/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1018/250/150/',
+    },
+    {
+      original: 'https://picsum.photos/id/1015/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1015/250/150/',
+    },
+    {
+      original: 'https://picsum.photos/id/1019/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+    },
+  ];
 
   function handleEdit() {
     navigate("/New");
@@ -35,6 +46,13 @@ function Route() {
 
   useEffect(() => {
     //checkUserToken();
+    var currentId = window.location.href.slice(28, 29);
+    axios
+      .get(`route/${currentId}`)
+      .then(function (response) {
+        // handle success
+        setFetchedRoute(response.data);
+      })
   }, []);
 
   return (
@@ -46,10 +64,15 @@ function Route() {
             <div className="w-full bg-red-100 flex flex-row justify-center">
               <h1>Map</h1>
             </div>
-            <div className="flex flex-col sm:flex-row w-full">
-              <h1 className="w-full sm:w-1/2 bg-green-100">Gallery</h1>
+            <div className="flex flex-col lg:flex-row w-full">
+              <ImageGallery showThumbnails={false} additionalClass="w-full lg:w-1/2" items={images} />
               <div className="w-full sm:w-1/2 bg-blue-100">
-                <div>Created by <Link to="/Profile/1"><b>Andrija Lerner</b></Link></div>
+                <div>
+                  Created by{" "}
+                  <Link to="/Profile/1">
+                    <b>Andrija Lerner</b>
+                  </Link>
+                </div>
                 <div>Upper Podstrana Route</div>
                 <div>Podstrana, Croatia</div>
                 <div>2.5 Miles</div>

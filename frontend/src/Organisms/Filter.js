@@ -7,15 +7,30 @@ import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
 import Autocomplete from "react-google-autocomplete";
 import GreenBtn from "../Atoms/GreenBtn";
+import useFilter from "../Atoms/Filter/useFilter";
 
 export default function Filter() {
-  const [lengthValue, setLengthValue] = useState([1, 100]);
-  const [locationValue, setLocationValue] = useState("");
-  const [dateValue, setDateValue] = useState("");
-  const [diffValue, setDiffValue] = useState("");
-  const [checked, setChecked] = useState(true);
+  const [lengthValue, setLengthValueLocal] = useState([1, 100]);
+  const [locationValue, setLocationValueLocal] = useState("");
+  const [dateValue, setDateValueLocal] = useState("");
+  const [diffValue, setDiffValueLocal] = useState("");
+  const [checked, setCheckedLocal] = useState(true);
+  const {
+    setLengthValue,
+    setChecked,
+    setDiffValue,
+    setLocationValue,
+    setDateValue,
+  } = useFilter();
 
-  //ALWAYS SHOW MORE STARRED ROUTES FIRST
+  const applyFilter = () => {
+    setChecked(checked);
+    setLengthValue(lengthValue);
+    setDiffValue(diffValue);
+    setLocationValue(locationValue);
+    setDateValue(dateValue);
+  }
+
   return (
     <>
       <form className="flex flex-col bg-white rounded-xl mt-4 pb-4 px-4 relative">
@@ -24,7 +39,7 @@ export default function Filter() {
           <Slider
             getAriaLabel={() => "Length"}
             value={lengthValue}
-            onChange={(e) => setLengthValue(e.target.value)}
+            onChange={(e) => setLengthValueLocal(e.target.value)}
             valueLabelDisplay="auto"
             max={100}
             min={1}
@@ -35,7 +50,7 @@ export default function Filter() {
           <Autocomplete
             required
             value={locationValue}
-            onChange={(e) => setLocationValue(e.target.value)}
+            onChange={(e) => setLocationValueLocal(e.target.value)}
             className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full"
             apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
             onPlaceSelected={(place) => {
@@ -49,7 +64,7 @@ export default function Filter() {
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
             value={dateValue}
-            onChange={(e) => setDateValue(e.target.value)}
+            onChange={(e) => setDateValueLocal(e.target.value)}
           >
             <FormControlLabel
               value="Newest"
@@ -67,7 +82,7 @@ export default function Filter() {
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
             value={diffValue}
-            onChange={(e) => setDiffValue(e.target.value)}
+            onChange={(e) => setDiffValueLocal(e.target.value)}
           >
             <FormControlLabel
               value="Beginner"
@@ -90,14 +105,14 @@ export default function Filter() {
           <label className="m-auto">Favourites:</label>
           <Checkbox
             checked={checked}
-            onChange={(e) => setChecked(e.target.value)}
+            onChange={(e) => setCheckedLocal(!checked)}
             inputProps={{ "aria-label": "controlled" }}
           />
         </div>
         <GreenBtn
           variant={1}
           text="APPLY"
-          handleClick={() => console.log("Filter")}
+          handleClick={() => applyFilter()}
           type="submit"
         />
       </form>

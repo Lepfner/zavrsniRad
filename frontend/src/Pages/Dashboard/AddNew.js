@@ -35,7 +35,7 @@ function AddNew() {
   );
 
   const [images, setImages] = useState([]);
-  const maxNumber = 1;
+  const maxNumber = 10;
 
   const handleSubmit = async () => {
     const toastId = toast.loading("Pending");
@@ -81,7 +81,7 @@ function AddNew() {
               className="flex justify-center items-center flex-col lg: w-full max-md:w-full"
               onSubmit={handleSubmit}
             >
-              <h1 className="text-3xl sm:text-4xl mb-4">Profile setup</h1>
+              <h1 className="text-3xl sm:text-4xl mb-4">Create new Route</h1>
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
                 Name:
               </p>
