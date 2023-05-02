@@ -8,6 +8,7 @@ const Route = sequelize.define(
       type: Sequelize.INTEGER,
       required: true,
       primaryKey: true,
+      unique: true,
       allowNull: false,
     },
     name: {
