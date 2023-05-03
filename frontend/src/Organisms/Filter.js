@@ -23,7 +23,7 @@ export default function Filter() {
     setDateValue,
   } = useFilter();
 
-  const applyFilter = () => {
+  const applyFilter = async(e) => {
     setChecked(checked);
     setLengthValue(lengthValue);
     setDiffValue(diffValue);

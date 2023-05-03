@@ -66,18 +66,19 @@ function Route() {
             </div>
             <div className="flex flex-col lg:flex-row w-full">
               <ImageGallery showThumbnails={false} additionalClass="w-full lg:w-1/2" items={images} />
-              <div className="w-full sm:w-1/2 bg-blue-100">
-                <div>
+              <div className="px-5 w-full sm:w-1/2">
+                <div className="w-full h-full bg-slate-300 rounded-xl p-5">
+                <div className="text-2xl">
                   Created by{" "}
                   <Link to="/Profile/1">
                     <b>Andrija Lerner</b>
                   </Link>
                 </div>
-                <div>Upper Podstrana Route</div>
-                <div>Podstrana, Croatia</div>
+                <div className="text-xl">Upper Podstrana Route</div>
+                <div className="text-lg">Podstrana, Croatia</div>
                 <div>2.5 Miles</div>
                 <div>64 Stars</div>
-                <div>Intermediate</div>
+                <div className="pb-2">Intermediate</div>
                 <div>
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -87,6 +88,7 @@ function Route() {
                   dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                   cupidatat non proident, sunt in culpa qui officia deserunt
                   mollit anim id est laborum."
+                </div>
                 </div>
               </div>
             </div>

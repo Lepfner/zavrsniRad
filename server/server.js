@@ -18,10 +18,12 @@ app.use(bodyParser.json());
 app.use(credentials);
 app.use(cors(corsOptions));
  
-const authsRouter = require("./routes/api/auths");
+const authsRouter = require("./routes/authRouter");
 app.use("/", authsRouter);
-const profileRouter = require("./routes/api/profileSetup");
+const profileRouter = require("./routes/profileRouter");
 app.use("/", profileRouter);
+const userRouter = require("./routes/userRouter");
+app.use("/", userRouter);
 app.listen(PORT, console.log(`Server started on http://localhost:${PORT}`));
 
 app.get("/", (req, res) => res.send("index"));
