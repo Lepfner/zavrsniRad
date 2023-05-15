@@ -43,13 +43,11 @@ function App() {
             <Route path="/Success" element={<Success />} />
           </Route>
           <Route element={<MainLayout />}>
-            <Route element={<RequireAuth />}>
               <Route path="/Contact" element={<Contact />} />
               <Route path="/Main" element={<Dashboard />} />
               <Route path="/Profile/:id" element={<Profile />} />
               <Route path="/Route/:id" element={<BikeRoute />} />
               <Route path="/New" element={<New />} />
-            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
