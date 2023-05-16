@@ -4,9 +4,9 @@ import { toast } from "react-hot-toast";
 import axios from "../../Atoms/Axios/axios";
 import GreenBtn from "../../Atoms/GreenBtn";
 import ImageGallery from "react-image-gallery";
-import './Route.css'
+import "./Route.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import * as MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
+import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 
 function Route() {
   const mapContainer = useRef(null);
@@ -24,9 +24,9 @@ function Route() {
     try {
       const response = await axios.delete(`/delete/${userID}`);
       console.log(response);
-      toast.success("user deleted!");
+      toast.success("Route deleted!");
     } catch (error) {
-      toast.error("and error has occured");
+      toast.error("An error has occured");
     }
   }
 
@@ -70,14 +70,21 @@ function Route() {
       zoom: zoom,
     });
     var directions = new MapboxDirections({
-      accessToken: 'pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g',
-      unit: 'metric',
-      profile: 'mapbox/cycling'
+      accessToken:
+        "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
+      unit: "metric",
+      profile: "mapbox/cycling",
     });
-    map.current.on('mouseleave', 'water', () => {
-      console.log(map.current.center);
+    map.current.on("click", (e) => {
+      console.log(
+        `A click event has occurred on a visible portion of the poi-label layer at ${e.lngLat}`
+      );
+    });
+    map.current.on('load', function() {
+      directions.setOrigin('Toronto, Ontario'); // On load, set the origin to "Toronto, Ontario".
+      directions.setDestination('Montreal, Quebec'); // On load, set the destination to "Montreal, Quebec".
       });
-    map.current.addControl(directions, 'top-left');
+    map.current.addControl(directions, "top-left");
   }, []);
 
   return (
@@ -87,7 +94,10 @@ function Route() {
           <div className="flex flex-col items-center">
             <h1 className="text-3xl mb-4">Upper Podstrana Route</h1>
             <div className="w-full bg-red-100 flex flex-row justify-center">
-                <div ref={mapContainer} className="map-container mapboxgl-canvas" />
+              <div
+                ref={mapContainer}
+                className="map-container mapboxgl-canvas"
+              />
             </div>
             <div className="flex flex-col lg:flex-row w-full">
               <ImageGallery
