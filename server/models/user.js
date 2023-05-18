@@ -2,23 +2,12 @@ const { Sequelize } = require("sequelize");
 const sequelize = require("../config/database");
 
 const User = sequelize.define(
-  "users",
+  "user",
   {
     id: {
       type: Sequelize.INTEGER,
       required: true,
       primaryKey: true,
-      allowNull: false,
-    },
-    email: {
-      type: Sequelize.STRING,
-      required: true,
-      unique: true,
-      allowNull: false,
-    },
-    password_digest: {
-      type: Sequelize.STRING,
-      required: true,
       allowNull: false,
     },
     name: {
@@ -27,6 +16,17 @@ const User = sequelize.define(
       allowNull: false,
     },
     surname: {
+      type: Sequelize.STRING,
+      required: true,
+      allowNull: false,
+    },
+    email: {
+      type: Sequelize.STRING,
+      required: true,
+      unique: true,
+      allowNull: false,
+    },
+    password: {
       type: Sequelize.STRING,
       required: true,
       allowNull: false,
@@ -52,16 +52,6 @@ const User = sequelize.define(
       required: false,
       allowNull: true,
     },
-    routes: {
-      type: Sequelize.routes,
-      required: false,
-      allowNull: true,
-    },
-    favourites: {
-      type: Sequelize.routes,
-      required: false,
-      allowNull: true,
-    }
   },
   {
     freezeTableName: true,

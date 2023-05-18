@@ -35,8 +35,6 @@ router.get("/routes", async (req, res) => {
         "id",
         "name",
         "location",
-        "geography",
-        "length",
         "stars",
         "difficulty",
         "dateAdded",
@@ -58,8 +56,6 @@ router.get("/search/:query", (req, res) => {
       "id",
       "name",
       "location",
-      "geography",
-      "length",
       "stars",
       "difficulty",
       "dateAdded",
@@ -98,10 +94,8 @@ router.post("/createNew", async (req, res) => {
         id: Date.now(),
         name: req.body.name,
         location: req.body.location,
-        geography: req.body.geography,
         about: req.body.about,
         images: req.body.images,
-        length: req.body.length,
         stars: req.body.stars,
         difficulty: req.body.difficulty,
         dateAdded: req.body.dateAdded,
@@ -121,10 +115,8 @@ router.post("/edit", async (req, res) => {
     const newRoute = await Route.update({
       name: req.body.name,
       location: req.body.location,
-      geography: req.body.geography,
       about: req.body.about,
       images: req.body.images,
-      length: req.body.length,
       difficulty: req.body.difficulty,
     },
     { where: { id: req.body.id }, returning: true, plain: true }
@@ -152,3 +144,5 @@ router.post("/addStar", async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
+module.exports = router;

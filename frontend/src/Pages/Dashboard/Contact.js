@@ -12,7 +12,7 @@ export default function Settings() {
   }
 
   useEffect(() => {
-    checkUserToken();
+    //checkUserToken();
   });
 
   const form = useRef();

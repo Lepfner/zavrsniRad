@@ -2,5 +2,5 @@ const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
 module.exports = new Sequelize(
-  `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASS}@juicydb-6413.8nj.cockroachlabs.cloud:26257/JuicyDB_v5?sslmode=verify-full`
+  "postgresql://andrija:wc879BjxdMN0_yhd5NH4-w@nwt-seminar-6022.7tc.cockroachlabs.cloud:26257/BikeApp?sslmode=verify-full"
 );

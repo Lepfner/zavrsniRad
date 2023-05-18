@@ -1,10 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Image from "../Images/Bikers.jpg";
 
 export default function Result({item}) {
+
+  const navigate = useNavigate();
+
+  function goToRoute(){
+    navigate("/route/1");
+    window.location.reload(false);
+  }
+
   return (
-    <Link to="/route/1">
+    <Link onClick={() => goToRoute()} to="/route/1">
       <div className="flex flex-col sm:flex-row rounded-md shadow-xl mb-4">
         <div className="w-full sm:w-2/5">
           <img alt="" src={Image} className="w-full h-full" />

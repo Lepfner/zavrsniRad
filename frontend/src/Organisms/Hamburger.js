@@ -36,9 +36,9 @@ const Hamburger = () => {
         onClose={() => setIsOpen(false)}
       >
         <div className="flex flex-col">
-        <Link to="/Main" className="mb-10">Main Page</Link>
-        <Link to="/Profile/:id" className="mb-10">My Profile</Link>
-        <Link to="/Contact" className="mb-10">Settings</Link>
+        <Link onClick={() => setIsOpen(false)} to="/Main" className="mb-10">Main Page</Link>
+        <Link onClick={() => setIsOpen(false)} to="/Profile/:id" className="mb-10">My Profile</Link>
+        <Link onClick={() => setIsOpen(false)} to="/Contact" className="mb-10">Settings</Link>
         <Link to="/Login" onClick={() => handleLogout()} className="mb-10">Logout</Link>
         </div>
       </Menu>

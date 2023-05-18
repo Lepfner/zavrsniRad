@@ -75,6 +75,7 @@ const SignUp = () => {
                 required
                 value={password}
                 minLength={7}
+                maxLength={20}
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 className={`${
@@ -86,6 +87,7 @@ const SignUp = () => {
                 required
                 value={passwordConfirm}
                 minLength={7}
+                maxLength={20}
                 onChange={(e) => setPasswordConfirm(e.target.value)}
                 type="password"
                 className={`${

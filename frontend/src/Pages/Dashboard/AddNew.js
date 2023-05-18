@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Atoms/Auth/useAuth";
@@ -9,6 +9,9 @@ import Autocomplete from "react-google-autocomplete";
 import ImageUploading from "react-images-uploading";
 import GreenBtn from "../../Atoms/GreenBtn";
 import Select from "react-select";
+import "./Route.css";
+import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 
 const routeData = {
   name: "",
@@ -26,13 +29,22 @@ const options = [
   { value: "Advanced", label: "Advanced" },
 ];
 
-function AddNew() {
+function AddNew({variant}) {
   const navigate = useNavigate();
   const { userSet } = useAuth();
   const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState(
     isEmptyObject(userSet) ? routeData : userSet
   );
+
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [lng, setLng] = useState(-70.9);
+  const [lat, setLat] = useState(42.35);
+  const [zoom, setZoom] = useState(9);
+
+  mapboxgl.accessToken =
+    "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g";
 
   const [images, setImages] = useState([]);
   const maxNumber = 10;
@@ -62,7 +74,30 @@ function AddNew() {
   };
 
   useEffect(() => {
-    checkUserToken();
+    //checkUserToken();
+    if (map.current) return;
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [lng, lat],
+      zoom: zoom,
+    });
+    var directions = new MapboxDirections({
+      accessToken:
+        "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
+      unit: "metric",
+      profile: "mapbox/cycling",
+    });
+    map.current.on("click", (e) => {
+      console.log(
+        `A click event has occurred on a visible portion of the poi-label layer at ${e.lngLat}`
+      );
+    });
+    map.current.on("load", function () {
+      directions.setOrigin("Podstrana, Croatia"); // On load, set the origin to "Toronto, Ontario".
+      directions.setDestination("Split, Croatia"); // On load, set the destination to "Montreal, Quebec".
+    });
+    map.current.addControl(directions, "top-left");
   }, []);
 
   const updateData = (fields) => {
@@ -81,8 +116,16 @@ function AddNew() {
               className="flex justify-center items-center flex-col lg: w-full max-md:w-full"
               onSubmit={handleSubmit}
             >
-              <h1 className="text-3xl sm:text-4xl mb-4">Create new Route</h1>
+              {variant === 1 && <h1 className="text-3xl sm:text-4xl mb-4">Create new Route</h1>}
+              {variant === 2 && <h1 className="text-3xl sm:text-4xl mb-4">Edit Route</h1>}
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+                Geography:
+              </p>
+              <div
+                ref={mapContainer}
+                className="map-container mapboxgl-canvas shadow-2xl"
+              />
+              <p className="lg:text-3xl mb-2 md:text-2xl sm:text-xl mt-8">
                 Name:
               </p>
               <input
@@ -105,28 +148,6 @@ function AddNew() {
                 onPlaceSelected={(place) => {
                   console.log(place);
                 }}
-              />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
-                Geography:
-              </p>
-              <input
-                required
-                value={formData.geography}
-                onChange={(e) => updateData({ geography: e.target.value })}
-                type="text"
-                className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
-                placeholder="Geo Data"
-              />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
-                Length (in miles):
-              </p>
-              <input
-                required
-                value={formData.length}
-                onChange={(e) => updateData({ length: e.target.value })}
-                type="number"
-                className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
-                placeholder="Username"
               />
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
                 About:

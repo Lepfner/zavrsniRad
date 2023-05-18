@@ -10,15 +10,11 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) return res.status(401).json({ message: "User not found" });
 
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.dataValues.password_digest
-    );
-
-    if (!validPassword)
+    if(req.body.password === user.dataValues.password){
+      res.status(200).json(user);
+    } else {
       return res.status(401).json({ message: "Authentication failed" });
-
-    res.status(200).json(user);
+    }
   } catch (error) {
     res.send(error);
   }
@@ -30,13 +26,13 @@ router.post("/register", async (req, res) => {
   if (emailTaken)
     return res.status(500).json({ message: "Email already in use" });
   else {
+    console.log("AAAAAAAAAAAAAA");
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      console.log("BBBBBBBB");
       const newUser = await User.create({
         id: Date.now(),
         email: req.body.email,
-        password_digest: hashedPassword,
+        password: req.body.password,
       });
 
       res.status(201).json(newUser);
@@ -77,7 +73,7 @@ router.post("/changepass", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const newUser = await User.update({
-      password_digest: hashedPassword,
+      password: hashedPassword,
     },
     { where: { email: req.body.email }, returning: true, plain: true }
     );

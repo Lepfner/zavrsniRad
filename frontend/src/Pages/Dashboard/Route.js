@@ -30,6 +30,11 @@ function Route() {
     }
   }
 
+  function editRoute() {
+    navigate("/Edit");
+    window.location.reload(false);
+  }
+
   const images = [
     {
       original: "https://picsum.photos/id/1018/1000/600/",
@@ -45,10 +50,6 @@ function Route() {
     },
   ];
 
-  function handleEdit() {
-    navigate("/New");
-  }
-
   function checkUserToken() {
     if (localStorage.getItem("isLoggedIn") === "false") {
       return navigate("/login");
@@ -59,10 +60,9 @@ function Route() {
     //checkUserToken();
     var currentId = window.location.href.slice(28, 29);
     axios.get(`route/${currentId}`).then(function (response) {
-      // handle success
       setFetchedRoute(response.data);
     });
-    if (map.current) return; // initialize map only once
+    if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
@@ -80,33 +80,36 @@ function Route() {
         `A click event has occurred on a visible portion of the poi-label layer at ${e.lngLat}`
       );
     });
-    map.current.on('load', function() {
-      directions.setOrigin('Toronto, Ontario'); // On load, set the origin to "Toronto, Ontario".
-      directions.setDestination('Montreal, Quebec'); // On load, set the destination to "Montreal, Quebec".
-      });
+    map.current.on("load", function () {
+      directions.setOrigin("Podstrana, Croatia"); // On load, set the origin to "Toronto, Ontario".
+      directions.setDestination("Split, Croatia"); // On load, set the destination to "Montreal, Quebec".
+    });
     map.current.addControl(directions, "top-left");
   }, []);
 
   return (
     <div className="font-custom mt-10 sm:mt-20 w-full flex flex-col items-center justify-between">
-      <div className="h-full flex flex-col justify-center max-w-[100%] sm:max-w-[70%] outline outline-green-400 outline-[1rem] rounded-xl z-0 w-[100%]">
+      <div className="h-full mb-10 flex flex-col justify-center max-w-[100%] sm:max-w-[70%] outline outline-green-400 outline-[1rem] rounded-xl z-0 w-[100%]">
         <div className="w-full rounded-xl p-12 z-10">
           <div className="flex flex-col items-center">
             <h1 className="text-3xl mb-4">Upper Podstrana Route</h1>
-            <div className="w-full bg-red-100 flex flex-row justify-center">
+            <div className="w-full gap-2 flex flex-row mb-2">
+              <GreenBtn
+                variant={1}
+                text="STAR ROUTE!"
+                handleClick={() => console.log("Starred!")}
+                type="button"
+              />
+            </div>
+            <div className="w-full mb-8 flex flex-row justify-center">
               <div
                 ref={mapContainer}
-                className="map-container mapboxgl-canvas"
+                className="map-container mapboxgl-canvas shadow-2xl"
               />
             </div>
             <div className="flex flex-col lg:flex-row w-full">
-              <ImageGallery
-                showThumbnails={false}
-                additionalClass="w-full lg:w-1/2"
-                items={images}
-              />
-              <div className="px-5 w-full sm:w-1/2">
-                <div className="w-full h-full bg-slate-300 rounded-xl p-5">
+              <div className="pr-5 w-full sm:w-1/2">
+                <div className="w-full h-full bg-slate-200 rounded-xl p-5 shadow-2xl">
                   <div className="text-2xl">
                     Created by{" "}
                     <Link to="/Profile/1">
@@ -115,7 +118,6 @@ function Route() {
                   </div>
                   <div className="text-xl">Upper Podstrana Route</div>
                   <div className="text-lg">Podstrana, Croatia</div>
-                  <div>2.5 Miles</div>
                   <div>64 Stars</div>
                   <div className="pb-2">Intermediate</div>
                   <div>
@@ -130,15 +132,17 @@ function Route() {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="w-full">
-              <h1 className="bg-orange-200">Geo Data</h1>
+              <ImageGallery
+                showThumbnails={false}
+                additionalClass="w-full lg:w-1/2"
+                items={images}
+              />
             </div>
             <div className="w-full flex flex-row justify-evenly">
               <GreenBtn
                 variant={1}
                 text="EDIT ROUTE"
-                handleClick={() => handleEdit()}
+                handleClick={() => editRoute()}
                 type="button"
               />
               <GreenBtn

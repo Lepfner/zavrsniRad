@@ -29,6 +29,7 @@ export default function Filter() {
     setDiffValue(diffValue);
     setLocationValue(locationValue);
     setDateValue(dateValue);
+    console.log(locationValue);
   }
 
   return (
@@ -102,7 +103,7 @@ export default function Filter() {
           </RadioGroup>
         </FormControl>
         <div>
-          <label className="m-auto">Favourites:</label>
+          <label className="m-auto">Starred:</label>
           <Checkbox
             checked={checked}
             onChange={(e) => setCheckedLocal(!checked)}

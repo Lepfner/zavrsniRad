@@ -54,7 +54,7 @@ function ProfileSetup() {
   };
 
   useEffect(() => {
-    checkUserToken();
+    //checkUserToken();
   }, []);
 
   const updateData = (fields) => {

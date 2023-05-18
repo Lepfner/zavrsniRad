@@ -21,11 +21,6 @@ const Route = sequelize.define(
       required: true,
       allowNull: false,
     },
-    geography: {
-      type: Sequelize.STRING,
-      required: true,
-      allowNull: false,
-    },
     about: {
       type: Sequelize.STRING,
       required: true,
@@ -33,11 +28,6 @@ const Route = sequelize.define(
     },
     images: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false,
-    },
-    length: {
-      type: Sequelize.INTEGER,
       required: true,
       allowNull: false,
     },
@@ -53,6 +43,11 @@ const Route = sequelize.define(
     },
     dateAdded: {
       type: Sequelize.DATE,
+      required: true,
+      allowNull: false,
+    },
+    user_id: {
+      type: Sequelize.INTEGER,
       required: true,
       allowNull: false,
     }
