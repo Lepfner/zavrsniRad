@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../config/database");
+const { DataTypes } = require('sequelize');
 
 const User = sequelize.define(
   "user",
@@ -12,13 +13,13 @@ const User = sequelize.define(
     },
     name: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false,
+      required: false,
+      allowNull: true,
     },
     surname: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false,
+      required: false,
+      allowNull: true,
     },
     email: {
       type: Sequelize.STRING,
@@ -33,17 +34,17 @@ const User = sequelize.define(
     },
     username: {
       type: Sequelize.STRING,
-      required: true,
+      required: false,
       unique: true,
-      allowNull: false,
+      allowNull: true,
     },
     location: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false,
+      required: false,
+      allowNull: true,
     },
     profileimg: {
-      type: Sequelize.STRING,
+      type: DataTypes.BLOB('long'),
       required: false,
       allowNull: true,
     },

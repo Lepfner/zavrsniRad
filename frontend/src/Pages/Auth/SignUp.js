@@ -35,9 +35,11 @@ const SignUp = () => {
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", true);
       const { id } = response?.data;
+      localStorage.setItem("currentUserId", id)
       setAuth({ email, password, id });
       navigate("/Setup");
     } catch (err) {
+      console.log(err);
       toast.error("email already taken!", { id: toastId });
     }
     setEmail("");

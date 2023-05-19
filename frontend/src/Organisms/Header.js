@@ -26,7 +26,7 @@ export default function Header() {
         </button>
       </div>
       <div className="flex">
-        <button onClick={() => navigate("/Profile/:id")}>
+        <button onClick={() => navigate(`/Profile/${localStorage.getItem("currentUserId")}`)}>
           <FontAwesomeIcon
             className="hidden md:flex mr-14 hover:animate-pulse"
             icon={faUser}

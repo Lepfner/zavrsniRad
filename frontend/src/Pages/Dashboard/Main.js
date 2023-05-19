@@ -18,7 +18,7 @@ export default function Main() {
   }
 
   useEffect(() => {
-    //checkUserToken();
+    checkUserToken();
     const fetch = async () => {
       if (query === "") {
         const result = await axios(`/routes`);

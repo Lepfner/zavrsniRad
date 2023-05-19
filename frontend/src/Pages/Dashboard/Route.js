@@ -57,7 +57,7 @@ function Route() {
   }
 
   useEffect(() => {
-    //checkUserToken();
+    checkUserToken();
     var currentId = window.location.href.slice(28, 29);
     axios.get(`route/${currentId}`).then(function (response) {
       setFetchedRoute(response.data);

@@ -18,8 +18,8 @@ const initialData = {
 
 function ProfileSetup() {
   const navigate = useNavigate();
-  const { userSet, auth, setIsLoggedIn } = useAuth();
-  const { id } = auth;
+  const { userSet, setIsLoggedIn } = useAuth();
+  const id = localStorage.getItem("currentUserId");
   const [formData, setFormData] = useState(
     isEmptyObject(userSet) ? initialData : userSet
   );
@@ -27,7 +27,8 @@ function ProfileSetup() {
   const [images, setImages] = useState([]);
   const maxNumber = 1;
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const toastId = toast.loading("Pending");
     try {
       const formResponse = await axios.put(`/setup/${id}`, formData);
@@ -54,7 +55,8 @@ function ProfileSetup() {
   };
 
   useEffect(() => {
-    //checkUserToken();
+    console.log(id);
+    checkUserToken();
   }, []);
 
   const updateData = (fields) => {

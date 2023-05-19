@@ -22,7 +22,7 @@ const ProfilePage = () => {
   }
 
   useEffect(() => {
-    //checkUserToken();
+    checkUserToken();
     const fetch = async () => {
       const result = await axios(`users/${auth.id}`);
       setUser({ ...result.data });

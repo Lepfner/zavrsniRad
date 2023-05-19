@@ -7,24 +7,23 @@ import { toast } from "react-hot-toast";
 
 const Recovery = () => {
   const [email, setEmail] = useState("");
-  const [code, setCode] = useState(0);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const toastId = toast.loading("Pending");
-    const emailParams = {
-      to_name: [`${email}`],
-      from_name: "Bike app",
-      message: `Your 5-digit code is ${code}`,
-    };
+
     try {
       const response = await axios.post("/code", JSON.stringify({ email }), {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-      setCode(response?.data);
       localStorage.setItem("searchedUser", email);
+      const emailParams = {
+        to_name: [`${email}`],
+        from_name: "Bike app",
+        message: `${response.data}`,
+      };
       emailjs
         .send(
           "service_v43f1xh",

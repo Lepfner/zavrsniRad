@@ -14,7 +14,7 @@ const Confirmation = () => {
     try {
       const response = await axios.post(
         "/verify",
-        JSON.stringify({ otp: authCode }),
+        JSON.stringify({ authCode }),
         {
           headers: { "Content-Type": "application/json" },
         }

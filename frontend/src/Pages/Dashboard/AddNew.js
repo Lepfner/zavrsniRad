@@ -74,7 +74,7 @@ function AddNew({variant}) {
   };
 
   useEffect(() => {
-    //checkUserToken();
+    checkUserToken();
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
