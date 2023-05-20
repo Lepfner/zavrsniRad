@@ -32,12 +32,10 @@ function ProfileSetup() {
     const toastId = toast.loading("Pending");
     try {
       const formResponse = await axios.put(`/setup/${id}`, formData);
-      console.log(formResponse?.data);
       setIsLoggedIn(true);
       toast.success("succesfull profile setup!", { id: toastId });
       navigate("/Success");
     } catch (error) {
-      console.log(error);
       toast.error("an error occured", { id: toastId });
     }
   };
@@ -49,13 +47,11 @@ function ProfileSetup() {
   }
 
   const onChange = (imageList, addUpdateIndex) => {
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
     formData.profileimg=images;
   };
 
   useEffect(() => {
-    console.log(id);
     checkUserToken();
   }, []);
 
@@ -119,9 +115,8 @@ function ProfileSetup() {
                 onChange={(e) => updateData({ location: e.target.value })}
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
-                onPlaceSelected={(place) => {
-                  console.log(place);
-                }}
+                onSelect={(e) => updateData({ location: e.target.value })}
+                onPlaceSelected={(place) => updateData({ location: place.formatted_address })}
               />
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
                 About:

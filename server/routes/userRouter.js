@@ -35,6 +35,10 @@ router.get("/routes", async (req, res) => {
         "id",
         "name",
         "location",
+        "lng",
+        "lat",
+        "endLng",
+        "endLat",
         "stars",
         "difficulty",
         "dateAdded",
@@ -56,6 +60,10 @@ router.get("/search/:query", (req, res) => {
       "id",
       "name",
       "location",
+      "lng",
+      "lat",
+      "endLng",
+      "endLat",
       "stars",
       "difficulty",
       "dateAdded",
@@ -91,18 +99,23 @@ router.delete("/delete/:id", async (req, res) => {
 router.post("/createNew", async (req, res) => {
     try {
       const newRoute = await Route.create({
-        id: Date.now(),
+        id: Date.now() + 1000,
         name: req.body.name,
         location: req.body.location,
+        lng: req.body.lng,
+        lat: req.body.lat,
+        endLng: req.body.endLng,
+        endLat: req.body.endLat,
         about: req.body.about,
         images: req.body.images,
-        stars: req.body.stars,
+        stars: 0,
         difficulty: req.body.difficulty,
-        dateAdded: req.body.dateAdded,
+        dateAdded: Date.now(),
       });
 
       res.status(201).json(newRoute);
     } catch (err) {
+      console.log(err);
       res.status(400).json({ message: err.message });
     }
 });
@@ -115,6 +128,10 @@ router.post("/edit", async (req, res) => {
     const newRoute = await Route.update({
       name: req.body.name,
       location: req.body.location,
+      lng: req.body.lng,
+      lat: req.body.lat,
+      endLng: req.body.endLng,
+      endLat: req.body.endLat,
       about: req.body.about,
       images: req.body.images,
       difficulty: req.body.difficulty,

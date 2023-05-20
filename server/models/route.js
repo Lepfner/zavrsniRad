@@ -21,6 +21,26 @@ const Route = sequelize.define(
       required: true,
       allowNull: false,
     },
+    lng: {
+      type: Sequelize.INTEGER,
+      required: true,
+      allowNull: false,
+    },
+    lat: {
+      type: Sequelize.INTEGER,
+      required: true,
+      allowNull: false,
+    },
+    endLng: {
+      type: Sequelize.INTEGER,
+      required: true,
+      allowNull: false,
+    },
+    endLat: {
+      type: Sequelize.INTEGER,
+      required: true,
+      allowNull: false,
+    },
     about: {
       type: Sequelize.STRING,
       required: true,

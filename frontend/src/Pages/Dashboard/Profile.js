@@ -7,7 +7,7 @@ import useAuth from "../../Atoms/Auth/useAuth";
 import Result from "../../Molecules/Result";
 
 const ProfilePage = () => {
-  const { userSet, setUser, auth } = useAuth();
+  const { userSet, setUser } = useAuth();
   const navigate = useNavigate();
   const myAccount = true;
 
@@ -24,7 +24,7 @@ const ProfilePage = () => {
   useEffect(() => {
     checkUserToken();
     const fetch = async () => {
-      const result = await axios(`users/${auth.id}`);
+      const result = await axios(`users/${localStorage.getItem("currentUserId")}`);
       setUser({ ...result.data });
     };
     fetch();
@@ -46,23 +46,23 @@ const ProfilePage = () => {
                     />
                   </div>
                   <p>
-                    {userSet.name}Andrija {userSet.surname}Lerner
+                    {userSet.name} {userSet.surname}
                   </p>
-                  <p>{userSet.username} Lepfner</p>
+                  <p>{userSet.username} </p>
                   <p>
                     <img
                       src={Location}
                       className="w-8 h-8 inline-block mix-blend-color-burn"
                       alt=""
                     />
-                    {userSet.location}Podstrana, Hrvatska
+                    {userSet.location}
                   </p>
                   <a
                     href={`mailto:${userSet.email}`}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {userSet.email}alerne00@fesb.hr
+                    {userSet.email}
                   </a>
                   {myAccount && (
                     <button

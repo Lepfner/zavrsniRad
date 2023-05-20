@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../Atoms/Auth/useAuth";
-import { isEmptyObject } from "../../Atoms/emptyObj";
 import { toast } from "react-hot-toast";
 import axios from "../../Atoms/Axios/axios";
 import Autocomplete from "react-google-autocomplete";
@@ -16,11 +14,14 @@ import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-d
 const routeData = {
   name: "",
   location: "",
-  geography: "",
+  lng: "",
+  lat: "",
+  endLng: "",
+  endLat: "",
   images: [],
   about: "",
-  length: 0,
   difficulty: "",
+  user_id: localStorage.getItem("currentUserId")
 };
 
 const options = [
@@ -31,21 +32,14 @@ const options = [
 
 function AddNew({variant}) {
   const navigate = useNavigate();
-  const { userSet } = useAuth();
   const [selectedOption, setSelectedOption] = useState(null);
-  const [formData, setFormData] = useState(
-    isEmptyObject(userSet) ? routeData : userSet
-  );
+  const [formData, setFormData] = useState([]);
 
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
 
   mapboxgl.accessToken =
     "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g";
-
   const [images, setImages] = useState([]);
   const maxNumber = 10;
 
@@ -54,9 +48,8 @@ function AddNew({variant}) {
     try {
       const formResponse = await axios.post(`/create`, formData);
       toast.success("Created New Route!", { id: toastId });
-      navigate("/Profile/1");
+      navigate(`/Profile/${routeData.user_id}`);
     } catch (error) {
-      console.log(error);
       toast.error("an error occured", { id: toastId });
     }
   };
@@ -79,8 +72,8 @@ function AddNew({variant}) {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
-      center: [lng, lat],
-      zoom: zoom,
+      center: [-70.9, 42.35],
+      zoom: 9,
     });
     var directions = new MapboxDirections({
       accessToken:
@@ -88,6 +81,7 @@ function AddNew({variant}) {
       unit: "metric",
       profile: "mapbox/cycling",
     });
+    {/*
     map.current.on("click", (e) => {
       console.log(
         `A click event has occurred on a visible portion of the poi-label layer at ${e.lngLat}`
@@ -96,8 +90,21 @@ function AddNew({variant}) {
     map.current.on("load", function () {
       directions.setOrigin("Podstrana, Croatia"); // On load, set the origin to "Toronto, Ontario".
       directions.setDestination("Split, Croatia"); // On load, set the destination to "Montreal, Quebec".
-    });
+    }); */}
     map.current.addControl(directions, "top-left");
+    directions.on('route', (event) => {
+      const route = event.route;
+      const waypoints = route[0].legs[0].steps.map((step) => ({
+        lng: step.maneuver.location[0],
+        lat: step.maneuver.location[1],
+      }));
+      console.log(waypoints[0].lat);
+      routeData.lat = waypoints[0].lat;
+      routeData.endLat = waypoints[waypoints.length - 1].lat;
+      routeData.lng = waypoints[0].lng;
+      routeData.endLng = waypoints[waypoints.length - 1].lng;
+      console.log(waypoints[waypoints.length - 1])
+    });
   }, []);
 
   const updateData = (fields) => {
@@ -146,7 +153,7 @@ function AddNew({variant}) {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
                 onPlaceSelected={(place) => {
-                  console.log(place);
+                  updateData({location: place.formatted_address})
                 }}
               />
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
