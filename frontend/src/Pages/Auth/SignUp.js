@@ -39,7 +39,6 @@ const SignUp = () => {
       setAuth({ email, password, id });
       navigate("/Setup");
     } catch (err) {
-      console.log(err);
       toast.error("email already taken!", { id: toastId });
     }
     setEmail("");

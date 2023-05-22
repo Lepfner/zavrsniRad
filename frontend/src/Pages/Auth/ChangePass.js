@@ -38,7 +38,6 @@ const ChangePass = () => {
       setAuth({ email, password, id });
       navigate("/Main");
     } catch (err) {
-      console.log(err);
       toast.error("Password change failed!", { id: toastId });
     }
     setPassword("");

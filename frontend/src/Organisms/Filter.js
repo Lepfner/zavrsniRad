@@ -29,7 +29,6 @@ export default function Filter() {
     setDiffValue(diffValue);
     setLocationValue(locationValue);
     setDateValue(dateValue);
-    console.log(locationValue);
   }
 
   return (
@@ -55,7 +54,6 @@ export default function Filter() {
             className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full"
             apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
             onPlaceSelected={(place) => {
-              console.log(place);
             }}
           />
         </div>

@@ -19,11 +19,9 @@ const Confirmation = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(response?.data);
       toast.success("Verification successful!", { id: toastId });
       navigate("/reset");
     } catch (error) {
-      console.log(error);
       toast.error("Verification failed!", { id: toastId });
     }
     setAuthCode("");

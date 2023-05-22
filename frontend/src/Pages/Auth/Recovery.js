@@ -33,13 +33,11 @@ const Recovery = () => {
         )
         .then(
           (response) => {
-            console.log("SUCCESS!", response.status, response.text);
             toast.success("Successful!", { id: toastId });
             navigate("/Confirm");
           },
           (err) => {
             toast.error("Email could not be sent!", { id: toastId });
-            console.log("FAILED...", err);
           }
         );
       toast.success("Success!", { id: toastId });

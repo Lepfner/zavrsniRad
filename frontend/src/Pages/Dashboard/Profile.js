@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Location from "../../Images/Location.png";
 import empty_avatar from "../../Images/Avatar.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../Atoms/Axios/axios";
 import useAuth from "../../Atoms/Auth/useAuth";
 import Result from "../../Molecules/Result";
 
 const ProfilePage = () => {
   const { userSet, setUser } = useAuth();
+  const [routes, setRoutes] = useState([]);
+  const [myAccount, setMyAccount] = useState(true);
   const navigate = useNavigate();
-  const myAccount = true;
 
   function checkUserToken() {
     if (localStorage.getItem("isLoggedIn") === "false") {
@@ -23,8 +24,20 @@ const ProfilePage = () => {
 
   useEffect(() => {
     checkUserToken();
+    var currentPageId = window.location.href.slice(30, 43);
+    if (currentPageId === localStorage.getItem("currentUserId")) {
+      setMyAccount(true);
+    } else {
+      setMyAccount(false);
+    }
     const fetch = async () => {
-      const result = await axios(`users/${localStorage.getItem("currentUserId")}`);
+      const result = await axios(
+        `users/${localStorage.getItem("currentUserId")}`
+      );
+      const routeResult = await axios(
+        `userRoutes/${localStorage.getItem("currentUserId")}`
+      );
+      setRoutes(routeResult.data);
       setUser({ ...result.data });
     };
     fetch();
@@ -75,25 +88,15 @@ const ProfilePage = () => {
                   )}
                 </div>
                 <div className="w-[63%] pl-8 pt-2 pb-4 text-lg max-sm:border-t-2 max-sm:border-skin-primary max-sm:w-[90%]">
-                  <h3>
-                    {userSet.about}"Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis
-                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum."
-                  </h3>
+                  <h3>{userSet.about}</h3>
                 </div>
               </section>
             </div>
             <section className="w-[90%] h-[71rem] sm:h-[22rem] bg-slate-300 mx-4 rounded-xl py-4 px-8 overflow-y-scroll overflow-x-hidden">
               <h2 className="text-center text-2xl mb-4">User's routes</h2>
-              {userSet.routes}
-              <Link to="/route/1"><Result/></Link>
-              <Link to="/route/1"><Result/></Link>
-              <Link to="/route/1"><Result/></Link>
+              {routes.map((item) => (
+                <Result key={item.id} currentRoute={item} />
+              ))}
             </section>
           </div>
         </div>

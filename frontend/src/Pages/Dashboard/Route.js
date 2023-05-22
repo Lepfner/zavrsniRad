@@ -11,20 +11,17 @@ import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-d
 function Route() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
 
   mapboxgl.accessToken =
     "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g";
   const navigate = useNavigate();
   const [fetchedRoute, setFetchedRoute] = useState([]);
 
-  async function deleteHandler(userID) {
+  async function deleteHandler(routeID) {
     try {
-      const response = await axios.delete(`/delete/${userID}`);
-      console.log(response);
+      const response = await axios.delete(`/delete/${routeID}`);
       toast.success("Route deleted!");
+      navigate("/Main");
     } catch (error) {
       toast.error("An error has occured");
     }
@@ -44,10 +41,6 @@ function Route() {
       original: "https://picsum.photos/id/1015/1000/600/",
       thumbnail: "https://picsum.photos/id/1015/250/150/",
     },
-    {
-      original: "https://picsum.photos/id/1019/1000/600/",
-      thumbnail: "https://picsum.photos/id/1019/250/150/",
-    },
   ];
 
   function checkUserToken() {
@@ -58,16 +51,19 @@ function Route() {
 
   useEffect(() => {
     checkUserToken();
-    var currentId = window.location.href.slice(28, 29);
-    axios.get(`route/${currentId}`).then(function (response) {
-      setFetchedRoute(response.data);
-    });
+    var currentId = window.location.href.slice(28, 41);
+    let result;
+    const fetch = async () => {
+      result = await axios(`route/${currentId}`);
+      setFetchedRoute(result.data);
+    };
+    fetch();
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
-      center: [lng, lat],
-      zoom: zoom,
+      center: [-70.9, 42.35],
+      zoom: 9,
     });
     var directions = new MapboxDirections({
       accessToken:
@@ -81,8 +77,8 @@ function Route() {
       );
     });
     map.current.on("load", function () {
-      directions.setOrigin("Podstrana, Croatia"); // On load, set the origin to "Toronto, Ontario".
-      directions.setDestination("Split, Croatia"); // On load, set the destination to "Montreal, Quebec".
+      directions.setOrigin([result.data.lng, result.data.lat]);
+      directions.setDestination([result.data.endLng, result.data.endLat]);
     });
     map.current.addControl(directions, "top-left");
   }, []);
@@ -92,7 +88,7 @@ function Route() {
       <div className="h-full mb-10 flex flex-col justify-center max-w-[100%] sm:max-w-[70%] outline outline-green-400 outline-[1rem] rounded-xl z-0 w-[100%]">
         <div className="w-full rounded-xl p-12 z-10">
           <div className="flex flex-col items-center">
-            <h1 className="text-3xl mb-4">Upper Podstrana Route</h1>
+            <h1 className="text-3xl mb-4">{fetchedRoute.name}</h1>
             <div className="w-full gap-2 flex flex-row mb-2">
               <GreenBtn
                 variant={1}
@@ -112,24 +108,15 @@ function Route() {
                 <div className="w-full h-full bg-slate-200 rounded-xl p-5 shadow-2xl">
                   <div className="text-2xl">
                     Created by{" "}
-                    <Link to="/Profile/1">
+                    <Link to={`/Profile/${fetchedRoute.user_id}`}>
                       <b>Andrija Lerner</b>
                     </Link>
                   </div>
-                  <div className="text-xl">Upper Podstrana Route</div>
-                  <div className="text-lg">Podstrana, Croatia</div>
-                  <div>64 Stars</div>
-                  <div className="pb-2">Intermediate</div>
-                  <div>
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum."
-                  </div>
+                  <div className="text-xl">{fetchedRoute.name}</div>
+                  <div className="text-lg">{fetchedRoute.location}</div>
+                  <div>{fetchedRoute.stars} Stars</div>
+                  <div className="pb-2">{fetchedRoute.difficulty}</div>
+                  <div>{fetchedRoute.about}</div>
                 </div>
               </div>
               <ImageGallery
@@ -138,20 +125,22 @@ function Route() {
                 items={images}
               />
             </div>
-            <div className="w-full flex flex-row justify-evenly">
-              <GreenBtn
-                variant={1}
-                text="EDIT ROUTE"
-                handleClick={() => editRoute()}
-                type="button"
-              />
-              <GreenBtn
-                variant={1}
-                text="DELETE ROUTE"
-                handleClick={() => deleteHandler()}
-                type="button"
-              />
-            </div>
+            {localStorage.getItem("currentUserId") === fetchedRoute.user_id && (
+              <div className="w-full flex flex-row justify-evenly">
+                <GreenBtn
+                  variant={1}
+                  text="EDIT ROUTE"
+                  handleClick={() => editRoute()}
+                  type="button"
+                />
+                <GreenBtn
+                  variant={1}
+                  text="DELETE ROUTE"
+                  handleClick={() => deleteHandler(fetchedRoute.id)}
+                  type="button"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

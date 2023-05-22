@@ -11,26 +11,13 @@ import "./Route.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 
-const routeData = {
-  name: "",
-  location: "",
-  lng: "",
-  lat: "",
-  endLng: "",
-  endLat: "",
-  images: [],
-  about: "",
-  difficulty: "",
-  user_id: localStorage.getItem("currentUserId")
-};
-
 const options = [
   { value: "Beginner", label: "Beginner" },
   { value: "Intermediate", label: "Intermediate" },
   { value: "Advanced", label: "Advanced" },
 ];
 
-function AddNew({variant}) {
+function AddNew({ variant }) {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState([]);
@@ -44,11 +31,14 @@ function AddNew({variant}) {
   const maxNumber = 10;
 
   const handleSubmit = async () => {
+    updateData({ difficulty: selectedOption.value });
+    updateData({ user_id: parseInt(localStorage.getItem("currentUserId")) });
+    updateData({ images: images });
     const toastId = toast.loading("Pending");
     try {
-      const formResponse = await axios.post(`/create`, formData);
+      const formResponse = await axios.post(`/createNew`, formData);
       toast.success("Created New Route!", { id: toastId });
-      navigate(`/Profile/${routeData.user_id}`);
+      navigate(`/Profile/${formData.user_id}`);
     } catch (error) {
       toast.error("an error occured", { id: toastId });
     }
@@ -61,9 +51,7 @@ function AddNew({variant}) {
   }
 
   const onChange = (imageList, addUpdateIndex) => {
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
-    routeData.images = imageList;
   };
 
   useEffect(() => {
@@ -81,29 +69,17 @@ function AddNew({variant}) {
       unit: "metric",
       profile: "mapbox/cycling",
     });
-    {/*
-    map.current.on("click", (e) => {
-      console.log(
-        `A click event has occurred on a visible portion of the poi-label layer at ${e.lngLat}`
-      );
-    });
-    map.current.on("load", function () {
-      directions.setOrigin("Podstrana, Croatia"); // On load, set the origin to "Toronto, Ontario".
-      directions.setDestination("Split, Croatia"); // On load, set the destination to "Montreal, Quebec".
-    }); */}
     map.current.addControl(directions, "top-left");
-    directions.on('route', (event) => {
+    directions.on("route", (event) => {
       const route = event.route;
       const waypoints = route[0].legs[0].steps.map((step) => ({
         lng: step.maneuver.location[0],
         lat: step.maneuver.location[1],
       }));
-      console.log(waypoints[0].lat);
-      routeData.lat = waypoints[0].lat;
-      routeData.endLat = waypoints[waypoints.length - 1].lat;
-      routeData.lng = waypoints[0].lng;
-      routeData.endLng = waypoints[waypoints.length - 1].lng;
-      console.log(waypoints[waypoints.length - 1])
+      updateData({ lat: waypoints[0].lat });
+      updateData({ endLat: waypoints[waypoints.length - 1].lat });
+      updateData({ lng: waypoints[0].lng });
+      updateData({ endLng: waypoints[waypoints.length - 1].lng });
     });
   }, []);
 
@@ -123,8 +99,12 @@ function AddNew({variant}) {
               className="flex justify-center items-center flex-col lg: w-full max-md:w-full"
               onSubmit={handleSubmit}
             >
-              {variant === 1 && <h1 className="text-3xl sm:text-4xl mb-4">Create new Route</h1>}
-              {variant === 2 && <h1 className="text-3xl sm:text-4xl mb-4">Edit Route</h1>}
+              {variant === 1 && (
+                <h1 className="text-3xl sm:text-4xl mb-4">Create new Route</h1>
+              )}
+              {variant === 2 && (
+                <h1 className="text-3xl sm:text-4xl mb-4">Edit Route</h1>
+              )}
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
                 Geography:
               </p>
@@ -153,7 +133,7 @@ function AddNew({variant}) {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
                 onPlaceSelected={(place) => {
-                  updateData({location: place.formatted_address})
+                  updateData({ location: place.formatted_address });
                 }}
               />
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">

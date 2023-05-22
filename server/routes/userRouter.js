@@ -9,7 +9,6 @@ router.get("/users/:id", async (req, res) => {
     const user = await User.findOne({
       where: { id: req.params.id },
     });
-
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -21,7 +20,17 @@ router.get("/route/:id", async (req, res) => {
     const route = await Route.findOne({
       where: { id: req.params.id },
     });
+    res.status(200).json(route);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
+router.get("/userRoutes/:user_id", async (req, res) => {
+  try {
+    const route = await Route.findAll({
+      where: { user_id: req.params.user_id },
+    });
     res.status(200).json(route);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -44,6 +53,7 @@ router.get("/routes", async (req, res) => {
         "dateAdded",
         "images",
         "about",
+        "user_id"
       ],
     });
 
@@ -69,6 +79,7 @@ router.get("/search/:query", (req, res) => {
       "dateAdded",
       "images",
       "about",
+      "user_id"
     ],
     where: {
       [Sequelize.Op.or]: [
@@ -110,12 +121,11 @@ router.post("/createNew", async (req, res) => {
         images: req.body.images,
         stars: 0,
         difficulty: req.body.difficulty,
+        user_id: req.body.user_id,
         dateAdded: Date.now(),
       });
-
       res.status(201).json(newRoute);
     } catch (err) {
-      console.log(err);
       res.status(400).json({ message: err.message });
     }
 });
@@ -123,7 +133,6 @@ router.post("/createNew", async (req, res) => {
 router.post("/edit", async (req, res) => {
   const route = await Route.findOne({ where: { id: req.body.id } });
   if (!route) return res.status(401).json({ message: "Route not found" });
-
   try {
     const newRoute = await Route.update({
       name: req.body.name,
@@ -138,7 +147,6 @@ router.post("/edit", async (req, res) => {
     },
     { where: { id: req.body.id }, returning: true, plain: true }
     );
-
     res.status(201).json(newRoute);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -148,14 +156,12 @@ router.post("/edit", async (req, res) => {
 router.post("/addStar", async (req, res) => {
   const route = await Route.findOne({ where: { id: req.body.id } });
   if (!route) return res.status(401).json({ message: "Route not found" });
-
   try {
     const newRoute = await Route.update({
       stars: req.body.newId,
     },
     { where: { id: req.body.id }, returning: true, plain: true }
     );
-
     res.status(201).json(newRoute);
   } catch (err) {
     res.status(400).json({ message: err.message });

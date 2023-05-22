@@ -1,8 +1,9 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../config/database");
+const { DataTypes } = require('sequelize');
 
 const Route = sequelize.define(
-  "routes",
+  "route",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -47,7 +48,7 @@ const Route = sequelize.define(
       allowNull: false,
     },
     images: {
-      type: Sequelize.STRING,
+      type: DataTypes.BLOB('long'),
       required: true,
       allowNull: false,
     },

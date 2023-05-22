@@ -18,7 +18,6 @@ export default function Settings() {
   const form = useRef();
   const sendEmail = (e) => {
     e.preventDefault();
-
     emailjs
       .sendForm(
         "service_v43f1xh",
@@ -28,10 +27,8 @@ export default function Settings() {
       )
       .then(
         (result) => {
-          // show the user a success message
         },
         (error) => {
-          console.log(error);
         }
       );
   };

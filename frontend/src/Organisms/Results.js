@@ -30,13 +30,8 @@ export default function Results({ items }) {
           </b>
         </p>
         {sortedItems.map((item) => (
-          <Result item={item} />
+          <Result key={item.id} currentRoute={item} />
         ))}
-        <Result />
-        <Result />
-        <Result />
-        <Result />
-        <Result />
       </div>
     </div>
   );

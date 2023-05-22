@@ -9,12 +9,10 @@ router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) return res.status(401).json({ message: "User not found" });
-
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.dataValues.password
     );
-
     if (!validPassword){
       return res.status(401).json({ message: "Authentication failed" });
     } else {
@@ -27,7 +25,6 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const emailTaken = await User.findOne({ where: { email: req.body.email } });
-
   if (emailTaken) {
     return res.status(500).json({ message: "Email already in use" });
   } else {
@@ -41,7 +38,6 @@ router.post("/register", async (req, res) => {
       });
       res.status(201).json(newUser);
     } catch (err) {
-      console.log(err);
       res.status(400).json({ message: err.message });
     }
   }
@@ -73,7 +69,6 @@ router.post("/verify", async (req, res) => {
 router.post("/changepass", async (req, res) => {
   const user = await User.findOne({ where: { email: req.body.email } });
   if (!user) return res.status(401).json({ message: "User not found" });
-
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -83,7 +78,6 @@ router.post("/changepass", async (req, res) => {
       },
       { where: { email: req.body.email }, returning: true, plain: true }
     );
-
     res.status(201).json(newUser);
   } catch (err) {
     res.status(400).json({ message: err.message });

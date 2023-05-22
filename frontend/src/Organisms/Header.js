@@ -8,11 +8,12 @@ import useAuth from "../Atoms/Auth/useAuth";
 
 export default function Header() {
 
-  const { setAuth, setIsLoggedIn } = useAuth();
+  const { setAuth, setIsLoggedIn, setUser } = useAuth();
 
   function handleLogout()  {
     localStorage.setItem("isLoggedIn", false);
     setAuth({});
+    setUser([]);
     setIsLoggedIn(false);
     navigate("/Login");
   }

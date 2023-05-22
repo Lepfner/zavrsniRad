@@ -14,9 +14,9 @@ import {
 import ErrorPage from "./Pages/404";
 import Contact from "./Pages/Dashboard/Contact";
 import Dashboard from "./Pages/Dashboard/Main";
-import Profile from './Pages/Dashboard/Profile';
+import Profile from "./Pages/Dashboard/Profile";
 import BikeRoute from "./Pages/Dashboard/Route";
-import New from './Pages/Dashboard/AddNew';
+import New from "./Pages/Dashboard/AddNew";
 import ProfileSetup from "./Pages/ProfileSetup/profileSetup";
 import Success from "./Pages/ProfileSetup/Success";
 import { Toaster } from "react-hot-toast";
@@ -38,15 +38,19 @@ function App() {
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/reset" element={<ChangePass />} />
           </Route>
+          <Route element={<RequireAuth />}>
             <Route path="/Setup" element={<ProfileSetup />} />
             <Route path="/Success" element={<Success />} />
-          <Route element={<MainLayout />}>
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route element={<MainLayout />}>
               <Route path="/Contact" element={<Contact />} />
               <Route path="/Main" element={<Dashboard />} />
               <Route path="/Profile/:id" element={<Profile />} />
               <Route path="/Route/:id" element={<BikeRoute />} />
-              <Route path="/New" element={<New variant={1}/>} />
-              <Route path="/Edit" element={<New variant={2}/>} />
+              <Route path="/New" element={<New variant={1} />} />
+              <Route path="/Edit" element={<New variant={2} />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

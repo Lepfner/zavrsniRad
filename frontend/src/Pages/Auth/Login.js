@@ -28,6 +28,7 @@ const Login = () => {
       localStorage.setItem("isLoggedIn", true);
       const { id } = response?.data;
       setAuth({ email, password, id });
+      localStorage.setItem("currentUserId", id);
       toast.success("successful login!", { id: toastId });
       navigate("/main");
     } catch (err) {

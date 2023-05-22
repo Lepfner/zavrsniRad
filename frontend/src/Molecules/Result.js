@@ -2,12 +2,12 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Image from "../Images/Bikers.jpg";
 
-export default function Result({item}) {
+export default function Result({currentRoute}) {
 
   const navigate = useNavigate();
 
   function goToRoute(){
-    navigate("/route/1");
+    navigate(`/route/${currentRoute.id}`);
     window.location.reload(false);
   }
 
@@ -18,11 +18,11 @@ export default function Result({item}) {
           <img alt="" src={Image} className="w-full h-full" />
         </div>
         <div className="bg-gray-300 w-full sm:w-3/5 pl-2 text-lg md:texl-2xl flex flex-col justify-around">
-          <div>Upper Podstrana Route</div>
-          <div>Podstrana, Croatia</div>
+          <div>{currentRoute.name}</div>
+          <div>{currentRoute.location}</div>
           <div>2.5 Miles</div>
-          <div>64 Stars</div>
-          <div>Intermediate</div>
+          <div>{currentRoute.stars} Stars</div>
+          <div>{currentRoute.difficulty}</div>
         </div>
       </div>
     </Link>
