@@ -22,25 +22,38 @@ const ProfilePage = () => {
     navigate("/Setup");
   }
 
+
   useEffect(() => {
     checkUserToken();
     var currentPageId = window.location.href.slice(30, 43);
     if (currentPageId === localStorage.getItem("currentUserId")) {
       setMyAccount(true);
+      const fetch = async () => {
+        const result = await axios(
+          `users/${localStorage.getItem("currentUserId")}`
+        );
+        const routeResult = await axios(
+          `userRoutes/${localStorage.getItem("currentUserId")}`
+        );
+        setRoutes(routeResult.data);
+        setUser({ ...result.data });
+        console.log(userSet.profileimg.data);
+      };
+      fetch();
     } else {
       setMyAccount(false);
+      const fetch = async () => {
+        const result = await axios(
+          `users/${currentPageId}`
+        );
+        const routeResult = await axios(
+          `userRoutes/${currentPageId}`
+        );
+        setRoutes(routeResult.data);
+        setUser({ ...result.data });
+      };
+      fetch();
     }
-    const fetch = async () => {
-      const result = await axios(
-        `users/${localStorage.getItem("currentUserId")}`
-      );
-      const routeResult = await axios(
-        `userRoutes/${localStorage.getItem("currentUserId")}`
-      );
-      setRoutes(routeResult.data);
-      setUser({ ...result.data });
-    };
-    fetch();
   }, []);
 
   return (

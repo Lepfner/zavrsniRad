@@ -89,7 +89,7 @@ router.get("/search/:query", (req, res) => {
           },
         },
         {
-          surname: {
+          location: {
             [Sequelize.Op.iLike]: `%${query}%`,
           },
         },

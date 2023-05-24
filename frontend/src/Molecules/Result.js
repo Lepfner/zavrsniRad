@@ -20,7 +20,6 @@ export default function Result({currentRoute}) {
         <div className="bg-gray-300 w-full sm:w-3/5 pl-2 text-lg md:texl-2xl flex flex-col justify-around">
           <div>{currentRoute.name}</div>
           <div>{currentRoute.location}</div>
-          <div>2.5 Miles</div>
           <div>{currentRoute.stars} Stars</div>
           <div>{currentRoute.difficulty}</div>
         </div>

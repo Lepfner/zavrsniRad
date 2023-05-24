@@ -29,7 +29,10 @@ export default function Results({ items }) {
             {sortedItems.length !== 1 && <>Results</>}
           </b>
         </p>
-        {sortedItems.map((item) => (
+        {sortedItems
+        .filter((item) => item.difficulty === localStorage.getItem("diffValue"))
+        .filter((item) => item.location === localStorage.getItem("locationValue"))
+        .map((item) => ( 
           <Result key={item.id} currentRoute={item} />
         ))}
       </div>

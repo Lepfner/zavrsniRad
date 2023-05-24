@@ -16,6 +16,7 @@ function Route() {
     "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g";
   const navigate = useNavigate();
   const [fetchedRoute, setFetchedRoute] = useState([]);
+  const [fetchedUser, setFetchedUser] = useState([]);
 
   async function deleteHandler(routeID) {
     try {
@@ -58,18 +59,26 @@ function Route() {
       setFetchedRoute(result.data);
     };
     fetch();
+    let userresult;
+    const userfetch = async () => {
+      userresult = await axios(`route/${currentId}`);
+      setFetchedUser(userresult.data);
+    };
+    userfetch();
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
       center: [-70.9, 42.35],
       zoom: 9,
+      interactive: false,
     });
     var directions = new MapboxDirections({
       accessToken:
         "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
       unit: "metric",
       profile: "mapbox/cycling",
+      interactive: false,
     });
     map.current.on("click", (e) => {
       console.log(
@@ -109,7 +118,7 @@ function Route() {
                   <div className="text-2xl">
                     Created by{" "}
                     <Link to={`/Profile/${fetchedRoute.user_id}`}>
-                      <b>Andrija Lerner</b>
+                      <b>{fetchedUser.name}</b>
                     </Link>
                   </div>
                   <div className="text-xl">{fetchedRoute.name}</div>
