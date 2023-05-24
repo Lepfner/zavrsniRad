@@ -147,7 +147,6 @@ function ProfileSetup() {
                   isDragging,
                   dragProps,
                 }) => (
-                  // write your building UI
                   <div className="upload__image-wrapper focus:outline-none h-40 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-1/5 md:w-1/5">
                     <button
                       style={isDragging ? { color: "red" } : undefined}

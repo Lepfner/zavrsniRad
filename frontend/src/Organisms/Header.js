@@ -1,16 +1,15 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOut, faGear, faUser } from "@fortawesome/free-solid-svg-icons";
-import logo from '../Images/Logo.png';
+import logo from "../Images/Logo.png";
 import { useNavigate } from "react-router-dom";
 import Hamburger from "./Hamburger";
 import useAuth from "../Atoms/Auth/useAuth";
 
 export default function Header() {
-
   const { setAuth, setIsLoggedIn, setUser } = useAuth();
 
-  function handleLogout()  {
+  function handleLogout() {
     localStorage.setItem("isLoggedIn", false);
     setAuth({});
     setUser([]);
@@ -27,7 +26,11 @@ export default function Header() {
         </button>
       </div>
       <div className="flex">
-        <button onClick={() => navigate(`/Profile/${localStorage.getItem("currentUserId")}`)}>
+        <button
+          onClick={() =>
+            navigate(`/Profile/${localStorage.getItem("currentUserId")}`)
+          }
+        >
           <FontAwesomeIcon
             className="hidden md:flex mr-14 hover:animate-pulse"
             icon={faUser}

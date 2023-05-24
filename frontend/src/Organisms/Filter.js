@@ -13,86 +13,86 @@ export default function Filter() {
   const [diffValue, setDiffValueLocal] = useState("");
   const [checked, setCheckedLocal] = useState(true);
 
-  const applyFilter = async() => {
+  const applyFilter = async () => {
     localStorage.setItem("locationValue", locationValue);
     localStorage.setItem("dateValue", dateValue);
     localStorage.setItem("diffValue", diffValue);
     localStorage.setItem("checked", checked);
-  }
+  };
 
   return (
-    <>
-      <form className="flex flex-col bg-white rounded-xl mt-4 pb-4 px-4 relative">
-        <label className="m-auto pt-[20px]">Location:</label>
-        <div className="px-[20px]">
-          <Autocomplete
-            required
-            value={locationValue}
-            onChange={(e) => setLocationValueLocal(e.target.value)}
-            className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full"
-            apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
-            onSelect={(e) => setLocationValueLocal( e.target.value )}
-            onPlaceSelected={(place) => setLocationValueLocal(place.formatted_address )}
-          />
-        </div>
-        <FormControl>
-          <label>Newest/Oldest:</label>
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-            value={dateValue}
-            onChange={(e) => setDateValueLocal(e.target.value)}
-          >
-            <FormControlLabel
-              value="Newest"
-              control={<Radio required={true} />}
-              label="Newest"
-            />
-            <FormControlLabel
-              value="Oldest"
-              control={<Radio required={true} />}
-              label="Oldest"
-            />
-          </RadioGroup>
-          <label>Beginner/Intermediate/Advanced:</label>
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-            value={diffValue}
-            onChange={(e) => setDiffValueLocal(e.target.value)}
-          >
-            <FormControlLabel
-              value="Beginner"
-              control={<Radio required={true} />}
-              label="Beginner"
-            />
-            <FormControlLabel
-              value="Intermediate"
-              control={<Radio required={true} />}
-              label="Intermediate"
-            />
-            <FormControlLabel
-              value="Advanced"
-              control={<Radio required={true} />}
-              label="Advanced"
-            />
-          </RadioGroup>
-        </FormControl>
-        <div>
-          <label className="m-auto">Starred:</label>
-          <Checkbox
-            checked={checked}
-            onChange={(e) => setCheckedLocal(!checked)}
-            inputProps={{ "aria-label": "controlled" }}
-          />
-        </div>
-        <GreenBtn
-          variant={1}
-          text="APPLY"
-          handleClick={() => applyFilter()}
-          type="submit"
+    <div className="flex flex-col bg-white rounded-xl mt-4 pb-4 px-4 relative">
+      <label className="m-auto pt-[20px]">Location:</label>
+      <div className="px-[20px]">
+        <Autocomplete
+          required
+          value={locationValue}
+          onChange={(e) => setLocationValueLocal(e.target.value)}
+          className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full"
+          apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
+          onSelect={(e) => setLocationValueLocal(e.target.value)}
+          onPlaceSelected={(place) =>
+            setLocationValueLocal(place.formatted_address)
+          }
         />
-      </form>
-    </>
+      </div>
+      <FormControl>
+        <label>Newest/Oldest:</label>
+        <RadioGroup
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={dateValue}
+          onChange={(e) => setDateValueLocal(e.target.value)}
+        >
+          <FormControlLabel
+            value="Newest"
+            control={<Radio required={true} />}
+            label="Newest"
+          />
+          <FormControlLabel
+            value="Oldest"
+            control={<Radio required={true} />}
+            label="Oldest"
+          />
+        </RadioGroup>
+        <label>Beginner/Intermediate/Advanced:</label>
+        <RadioGroup
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={diffValue}
+          onChange={(e) => setDiffValueLocal(e.target.value)}
+        >
+          <FormControlLabel
+            value="Beginner"
+            control={<Radio required={true} />}
+            label="Beginner"
+          />
+          <FormControlLabel
+            value="Intermediate"
+            control={<Radio required={true} />}
+            label="Intermediate"
+          />
+          <FormControlLabel
+            value="Advanced"
+            control={<Radio required={true} />}
+            label="Advanced"
+          />
+        </RadioGroup>
+      </FormControl>
+      <div>
+        <label className="m-auto">Starred:</label>
+        <Checkbox
+          checked={checked}
+          onChange={(e) => setCheckedLocal(!checked)}
+          inputProps={{ "aria-label": "controlled" }}
+        />
+      </div>
+      <GreenBtn
+        variant={1}
+        text="APPLY"
+        handleClick={() => applyFilter()}
+        type="submit"
+      />
+    </div>
   );
 }

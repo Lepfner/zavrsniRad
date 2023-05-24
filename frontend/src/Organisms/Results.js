@@ -30,11 +30,15 @@ export default function Results({ items }) {
           </b>
         </p>
         {sortedItems
-        .filter((item) => item.difficulty === localStorage.getItem("diffValue"))
-        .filter((item) => item.location === localStorage.getItem("locationValue"))
-        .map((item) => ( 
-          <Result key={item.id} currentRoute={item} />
-        ))}
+          .filter(
+            (item) => item.difficulty === localStorage.getItem("diffValue")
+          )
+          .filter(
+            (item) => item.location === localStorage.getItem("locationValue")
+          )
+          .map((item) => (
+            <Result key={item.id} currentRoute={item} />
+          ))}
       </div>
     </div>
   );
