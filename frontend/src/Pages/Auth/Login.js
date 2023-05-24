@@ -29,7 +29,7 @@ const Login = () => {
       const { id } = response?.data;
       setAuth({ email, password, id });
       localStorage.setItem("currentUserId", id);
-      toast.success("successful login!", { id: toastId });
+      toast.success("Successful login!", { id: toastId });
       navigate("/main");
     } catch (err) {
       toast.error("Incorrect email or password", { id: toastId });
