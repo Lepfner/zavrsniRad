@@ -8,13 +8,13 @@ var randomNumber;
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
-    if (!user) return res.status(401).json({ message: "User not found" });
+    if (!user) return res.status(402).json({ message: "User not found" });
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.dataValues.password
     );
     if (!validPassword){
-      return res.status(401).json({ message: "Authentication failed" });
+      return res.status(401).json({ message: "Incorrect email or password" });
     } else {
       res.status(200).json(user);
     }
@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
       });
       res.status(201).json(newUser);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      res.send(error);
     }
   }
 });
@@ -59,7 +59,7 @@ router.post("/verify", async (req, res) => {
     if (req.body.authCode == randomNumber) {
       return res.status(200).json({ message: "Verification successful! " });
     } else {
-      return res.status(401).json({ message: "Verification failed!" });
+      return res.status(401).json({ message: "Incorrect code!" });
     }
   } catch (error) {
     res.send(error);
@@ -79,8 +79,8 @@ router.post("/changepass", async (req, res) => {
       { where: { email: req.body.email }, returning: true, plain: true }
     );
     res.status(201).json(newUser);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    res.send(error);
   }
 });
 

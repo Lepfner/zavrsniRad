@@ -32,7 +32,17 @@ const Login = () => {
       toast.success("Successful login!", { id: toastId });
       navigate("/main");
     } catch (err) {
-      toast.error("Incorrect email or password", { id: toastId });
+      switch (err.response.status) {
+        case 401:
+          toast.error("Incorrect email or password", { id: toastId });
+          break;
+        case 402:
+          toast.error("User not found", { id: toastId });
+          break;
+        default:
+          toast.error("Login error", { id: toastId });
+          break;
+      }
     }
     setEmail("");
     setPassword("");

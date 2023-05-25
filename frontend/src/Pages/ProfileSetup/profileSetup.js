@@ -33,10 +33,10 @@ function ProfileSetup() {
     try {
       const formResponse = await axios.put(`/setup/${id}`, formData);
       setIsLoggedIn(true);
-      toast.success("succesfull profile setup!", { id: toastId });
+      toast.success("Succesfull profile setup!", { id: toastId });
       navigate("/Success");
     } catch (error) {
-      toast.error("an error occured", { id: toastId });
+      toast.error("An error occured", { id: toastId });
     }
   };
 

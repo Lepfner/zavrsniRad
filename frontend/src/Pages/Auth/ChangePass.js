@@ -38,7 +38,14 @@ const ChangePass = () => {
       setAuth({ email, password, id });
       navigate("/Main");
     } catch (err) {
-      toast.error("Password change failed!", { id: toastId });
+      switch (err.response.status) {
+        case 401:
+          toast.error("User not found", { id: toastId });
+          break;
+        default:
+          toast.error("Password change error", { id: toastId });
+          break;
+      }
     }
     setPassword("");
     setPasswordConfirm("");

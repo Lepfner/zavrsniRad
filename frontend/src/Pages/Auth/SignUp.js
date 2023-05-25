@@ -30,16 +30,24 @@ const SignUp = () => {
           withCredentials: true,
         }
       );
-      toast.success("successful registration!", { id: toastId });
+      toast.success("Successful registration!", { id: toastId });
       setIsRegistered(true);
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", true);
       const { id } = response?.data;
-      localStorage.setItem("currentUserId", id)
+      localStorage.setItem("currentUserId", id);
       setAuth({ email, password, id });
       navigate("/Setup");
     } catch (err) {
-      toast.error("email already taken!", { id: toastId });
+      console.log(err.response.status);
+      switch (err.response.status) {
+        case 500:
+          toast.error("Email already taken!", { id: toastId });
+          break;
+        default:
+          toast.error("SignUp error", { id: toastId });
+          break;
+      }
     }
     setEmail("");
     setPassword("");

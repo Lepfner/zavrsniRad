@@ -22,7 +22,14 @@ const Confirmation = () => {
       toast.success("Verification successful!", { id: toastId });
       navigate("/reset");
     } catch (error) {
-      toast.error("Verification failed!", { id: toastId });
+      switch (error.response.status) {
+        case 401:
+          toast.error("Incorrect code", { id: toastId });
+          break;
+        default:
+          toast.error("Code verification error", { id: toastId });
+          break;
+      }
     }
     setAuthCode("");
   };

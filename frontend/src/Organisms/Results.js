@@ -25,8 +25,8 @@ export default function Results({ items }) {
       <div className="shadow-lg rounded-md bg-slate-200 w-full mt-6 h-full px-4 py-2">
         <p className="mb-4 text-xl">
           <b>
-            {sortedItems.length} {sortedItems.length === 1 && <>Result</>}{" "}
-            {sortedItems.length !== 1 && <>Results</>}
+            {sortedItems.length > 0 && <>Search results:</>}{" "}
+            {sortedItems.length === 0 && <>No results</>}
           </b>
         </p>
         {sortedItems

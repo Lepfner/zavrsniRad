@@ -43,7 +43,14 @@ const Recovery = () => {
       toast.success("Success!", { id: toastId });
       navigate("/Confirm");
     } catch (err) {
-      toast.error("User not found!", { id: toastId });
+      switch (err.response.status) {
+        case 401:
+          toast.error("User not found", { id: toastId });
+          break;
+        default:
+          toast.error("Email error", { id: toastId });
+          break;
+      }
     }
   };
 
