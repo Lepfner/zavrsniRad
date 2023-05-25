@@ -98,7 +98,7 @@ function AddNew({ variant }) {
         <div className="w-full rounded-xl p-12 z-10">
           <div className="flex justify-center items-center">
             <form
-              className="flex justify-center items-center flex-col lg: w-full max-md:w-full"
+              className="flex justify-center items-center flex-col lg:w-full max-md:w-full"
               onSubmit={handleSubmit}
             >
               {variant === 1 && (
@@ -107,7 +107,7 @@ function AddNew({ variant }) {
               {variant === 2 && (
                 <h1 className="text-3xl sm:text-4xl mb-4">Edit Route</h1>
               )}
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Geography:
               </p>
               <div
@@ -125,7 +125,7 @@ function AddNew({ variant }) {
                 placeholder="Name"
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
               />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Location:
               </p>
               <Autocomplete
@@ -138,7 +138,7 @@ function AddNew({ variant }) {
                   updateData({ location: place.formatted_address });
                 }}
               />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 About:
               </p>
               <input
@@ -149,7 +149,7 @@ function AddNew({ variant }) {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 placeholder="About"
               />
-              <p className=" lg:text-3xl mb-4 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-4 md:text-2xl sm:text-xl">
                 Difficulty:
               </p>
               <Select
@@ -158,7 +158,7 @@ function AddNew({ variant }) {
                 options={options}
                 className="focus:outline-none h-14 px-2 rounded-lg mb-8 w-full lg:w-4/5 md:w-4/5"
               />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Images:
               </p>
               <ImageUploading

@@ -40,7 +40,7 @@ const Confirmation = () => {
         CONFIRMATION:
       </h1>
       <div className="w-full flex flex-col lg:text-lg md:flex-row text-base sm:flex-col ">
-        <form className="lg: w-4/5 max-md:w-full" onSubmit={handleSubmit}>
+        <form className="lg:w-4/5 max-md:w-full" onSubmit={handleSubmit}>
           <p>5-digit code:</p>
           <input
             required

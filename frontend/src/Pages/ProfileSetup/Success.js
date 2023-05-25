@@ -16,7 +16,7 @@ const Success = () => {
               </h1>
               <div
                 className="flex justify-center lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col 
-                      lg:text-xl md:text-lg sm: text-lg"
+                      lg:text-xl md:text-lg sm:text-lg"
               >
                 <GreenBtn
                   variant={1}

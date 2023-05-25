@@ -87,7 +87,7 @@ const ProfilePage = () => {
                   {myAccount && (
                     <button
                       type="button"
-                      className="bg-gray-700 hover:bg-green-500 duration-200 px-4 w-36 rounded-md p-2 mt-4 text-white lg:text-xl md:text-lg sm: text-lg"
+                      className="bg-gray-700 hover:bg-green-500 duration-200 px-4 w-36 rounded-md p-2 mt-4 text-white lg:text-xl md:text-lg sm:text-lg"
                       onClick={handleEdit}
                     >
                       Edit profile

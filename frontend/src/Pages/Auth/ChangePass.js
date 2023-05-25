@@ -65,7 +65,7 @@ const ChangePass = () => {
             className="w-full flex flex-col lg:text-lg md:flex-row text-base 
                        sm:flex-col "
           >
-            <form className="lg: w-4/5 max-md:w-full" onSubmit={handleSubmit}>
+            <form className="lg:w-4/5 max-md:w-full" onSubmit={handleSubmit}>
               <p>Password:</p>
               <input
                 required

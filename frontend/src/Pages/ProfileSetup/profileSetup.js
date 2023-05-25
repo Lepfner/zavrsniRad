@@ -73,7 +73,7 @@ function ProfileSetup() {
               onSubmit={handleSubmit}
             >
               <h1 className="text-3xl sm:text-4xl mb-4">Profile setup</h1>
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className="lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Name:
               </p>
               <input
@@ -84,7 +84,7 @@ function ProfileSetup() {
                 placeholder="Name"
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
               />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Surname:
               </p>
               <input
@@ -95,7 +95,7 @@ function ProfileSetup() {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 placeholder="Surname"
               />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Username:
               </p>
               <input
@@ -106,7 +106,7 @@ function ProfileSetup() {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 placeholder="Username"
               />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Location:
               </p>
               <Autocomplete
@@ -120,7 +120,7 @@ function ProfileSetup() {
                   updateData({ location: place.formatted_address })
                 }
               />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 About:
               </p>
               <input
@@ -131,7 +131,7 @@ function ProfileSetup() {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 placeholder="About"
               />
-              <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
+              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Profile Image:
               </p>
               <ImageUploading
