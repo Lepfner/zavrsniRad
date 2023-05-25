@@ -8,6 +8,7 @@ import ImageUploading from "react-images-uploading";
 import GreenBtn from "../../Atoms/GreenBtn";
 import Select from "react-select";
 import "./Route.css";
+import { checkUserToken } from "../../Atoms/checkToken.js";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 
@@ -21,6 +22,7 @@ function AddNew({ variant }) {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState([]);
+  let check;
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -40,22 +42,19 @@ function AddNew({ variant }) {
       toast.success("Created New Route!", { id: toastId });
       navigate(`/Profile/${formData.user_id}`);
     } catch (error) {
-      toast.error("an error occured", { id: toastId });
+      toast.error("An error occured", { id: toastId });
     }
   };
-
-  function checkUserToken() {
-    if (localStorage.getItem("isLoggedIn") === "false") {
-      return navigate("/login");
-    }
-  }
 
   const onChange = (imageList, addUpdateIndex) => {
     setImages(imageList);
   };
 
   useEffect(() => {
-    checkUserToken();
+    check = checkUserToken();
+    if (!check) {
+      return navigate("/login");
+    }
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -68,6 +67,9 @@ function AddNew({ variant }) {
         "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
       unit: "metric",
       profile: "mapbox/cycling",
+      controls: {
+        profileSwitcher: false,
+      },
     });
     map.current.addControl(directions, "top-left");
     directions.on("route", (event) => {

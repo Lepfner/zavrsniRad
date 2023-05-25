@@ -1,18 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
+import { checkUserToken } from "../../Atoms/checkToken.js";
 
 export default function Settings() {
   const navigate = useNavigate();
-
-  function checkUserToken() {
-    if (localStorage.getItem("isLoggedIn") === "false") {
-      return navigate("/login");
-    }
-  }
+  let check;
 
   useEffect(() => {
-    checkUserToken();
+    check = checkUserToken();
+    if (!check) {
+      return navigate("/login");
+    }
   });
 
   const form = useRef();
@@ -26,10 +25,8 @@ export default function Settings() {
         "M-karua9jmM9OyLKr"
       )
       .then(
-        (result) => {
-        },
-        (error) => {
-        }
+        (result) => {},
+        (error) => {}
       );
   };
 
@@ -43,8 +40,7 @@ export default function Settings() {
             </h1>
             <p className="text-justify ml-2 mr-2 sm:ml-6 sm:mr-6 md:ml-12 md:mr-12">
               Please let us know if you have any problems with our app
-              whatsoever. We would be more than happy to assist you in
-              any way.
+              whatsoever. We would be more than happy to assist you in any way.
             </p>
             <br />
             <form ref={form} onSubmit={sendEmail} className="w-full">
@@ -85,7 +81,15 @@ export default function Settings() {
               Made by Andrija Lerner
               <br />
             </div>
-            <div className="mt-4"><a href="mailto:alerne00@fesb.hr" target="_blank" rel="noreferrer">Email contact: alerne00@fesb.hr</a></div>
+            <div className="mt-4">
+              <a
+                href="mailto:alerne00@fesb.hr"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Email contact: alerne00@fesb.hr
+              </a>
+            </div>
           </div>
         </div>
       </div>

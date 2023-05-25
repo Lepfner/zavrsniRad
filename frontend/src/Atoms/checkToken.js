@@ -1,4 +1,4 @@
-export default function checkUserToken() {
+export function checkUserToken() {
   if (localStorage.getItem("isLoggedIn") === "false") {
     return false;
   } else {

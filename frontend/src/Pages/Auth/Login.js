@@ -85,6 +85,7 @@ const Login = () => {
               required
               value={password}
               minLength={7}
+              maxLength={20}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               className={`${

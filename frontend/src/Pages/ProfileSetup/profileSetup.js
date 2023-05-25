@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 import axios from "../../Atoms/Axios/axios";
 import Autocomplete from "react-google-autocomplete";
 import ImageUploading from "react-images-uploading";
+import { checkUserToken } from "../../Atoms/checkToken.js";
+
 const initialData = {
   name: "",
   surname: "",
@@ -23,6 +25,7 @@ function ProfileSetup() {
   const [formData, setFormData] = useState(
     isEmptyObject(userSet) ? initialData : userSet
   );
+  let check;
 
   const [images, setImages] = useState([]);
   const maxNumber = 1;
@@ -40,19 +43,16 @@ function ProfileSetup() {
     }
   };
 
-  function checkUserToken() {
-    if (localStorage.getItem("isLoggedIn") === "false") {
-      return navigate("/login");
-    }
-  }
-
   const onChange = (imageList, addUpdateIndex) => {
     setImages(imageList);
-    formData.profileimg=images;
+    formData.profileimg = images;
   };
 
   useEffect(() => {
-    checkUserToken();
+    check = checkUserToken();
+    if (!check) {
+      return navigate("/login");
+    }
   }, []);
 
   const updateData = (fields) => {
@@ -116,7 +116,9 @@ function ProfileSetup() {
                 className="focus:outline-none h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5"
                 apiKey={"AIzaSyD5fzFAonYntL_GNTfxtI03bEJwD7_v9h0"}
                 onSelect={(e) => updateData({ location: e.target.value })}
-                onPlaceSelected={(place) => updateData({ location: place.formatted_address })}
+                onPlaceSelected={(place) =>
+                  updateData({ location: place.formatted_address })
+                }
               />
               <p className=" lg:text-3xl mb-2 md: text-2xl sm: text-xl">
                 About:

@@ -5,6 +5,7 @@ import axios from "../../Atoms/Axios/axios";
 import GreenBtn from "../../Atoms/GreenBtn";
 import ImageGallery from "react-image-gallery";
 import "./Route.css";
+import { checkUserToken } from "../../Atoms/checkToken.js";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 
@@ -17,6 +18,7 @@ function Route() {
   const navigate = useNavigate();
   const [fetchedRoute, setFetchedRoute] = useState([]);
   const [fetchedUser, setFetchedUser] = useState([]);
+  let check;
 
   async function deleteHandler(routeID) {
     try {
@@ -44,14 +46,11 @@ function Route() {
     },
   ];
 
-  function checkUserToken() {
-    if (localStorage.getItem("isLoggedIn") === "false") {
+  useEffect(() => {
+    check = checkUserToken();
+    if (!check) {
       return navigate("/login");
     }
-  }
-
-  useEffect(() => {
-    checkUserToken();
     var currentId = window.location.href.slice(28, 41);
     let result;
     const fetch = async () => {
@@ -72,6 +71,9 @@ function Route() {
       center: [-70.9, 42.35],
       zoom: 9,
       interactive: false,
+      controls: {
+        profileSwitcher: false,
+      },
     });
     var directions = new MapboxDirections({
       accessToken:
@@ -79,6 +81,9 @@ function Route() {
       unit: "metric",
       profile: "mapbox/cycling",
       interactive: false,
+      controls: {
+        profileSwitcher: false,
+      },
     });
     map.current.on("click", (e) => {
       console.log(

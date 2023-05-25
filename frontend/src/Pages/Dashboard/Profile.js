@@ -5,26 +5,24 @@ import { useNavigate } from "react-router-dom";
 import axios from "../../Atoms/Axios/axios";
 import useAuth from "../../Atoms/Auth/useAuth";
 import Result from "../../Molecules/Result";
+import { checkUserToken } from "../../Atoms/checkToken.js";
 
 const ProfilePage = () => {
   const { userSet, setUser } = useAuth();
   const [routes, setRoutes] = useState([]);
   const [myAccount, setMyAccount] = useState(true);
   const navigate = useNavigate();
-
-  function checkUserToken() {
-    if (localStorage.getItem("isLoggedIn") === "false") {
-      return navigate("/login");
-    }
-  }
+  let check;
 
   function handleEdit() {
     navigate("/Setup");
   }
 
-
   useEffect(() => {
-    checkUserToken();
+    check = checkUserToken();
+    if (!check) {
+      return navigate("/login");
+    }
     var currentPageId = window.location.href.slice(30, 43);
     if (currentPageId === localStorage.getItem("currentUserId")) {
       setMyAccount(true);
@@ -43,12 +41,8 @@ const ProfilePage = () => {
     } else {
       setMyAccount(false);
       const fetch = async () => {
-        const result = await axios(
-          `users/${currentPageId}`
-        );
-        const routeResult = await axios(
-          `userRoutes/${currentPageId}`
-        );
+        const result = await axios(`users/${currentPageId}`);
+        const routeResult = await axios(`userRoutes/${currentPageId}`);
         setRoutes(routeResult.data);
         setUser({ ...result.data });
       };
