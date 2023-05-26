@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import axios from "../../Atoms/Axios/axios";
 import GreenBtn from "../../Atoms/GreenBtn";
 import ImageGallery from "react-image-gallery";
-import "./Route.css";
+import "../../Styles/Route.css";
 import { checkUserToken } from "../../Atoms/checkToken.js";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
@@ -30,6 +30,60 @@ function Route() {
     }
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "/addStar",
+        JSON.stringify({
+          route_id: fetchedRoute.id,
+          user_id: parseInt(localStorage.getItem("currentUserId")),
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      toast.success("Starred!");
+    } catch (err) {
+      switch (err.response.status) {
+        case 401:
+          toast.error("You already starred this route!");
+          break;
+        default:
+          toast.error("Unknown Error!");
+          break;
+      }
+    }
+  };
+
+  const handleRemoveStar = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "/removeStar",
+        JSON.stringify({
+          route_id: fetchedRoute.id,
+          user_id: parseInt(localStorage.getItem("currentUserId")),
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      toast.success("Star removed!");
+    } catch (err) {
+      switch (err.response.status) {
+        case 401:
+          toast.error("You haven't starred this route!");
+          break;
+        default:
+          toast.error("Unknown Error!");
+          break;
+      }
+    }
+  };
+
   function editRoute() {
     navigate("/Edit");
     window.location.reload(false);
@@ -52,18 +106,14 @@ function Route() {
       return navigate("/login");
     }
     var currentId = window.location.href.slice(28, 41);
-    let result;
+    let result, userResult;
     const fetch = async () => {
       result = await axios(`route/${currentId}`);
       setFetchedRoute(result.data);
+      userResult = await axios(`users/${result.data.user_id}`);
+      setFetchedUser(userResult.data);
     };
     fetch();
-    let userresult;
-    const userfetch = async () => {
-      userresult = await axios(`route/${currentId}`);
-      setFetchedUser(userresult.data);
-    };
-    userfetch();
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -107,7 +157,13 @@ function Route() {
               <GreenBtn
                 variant={1}
                 text="STAR ROUTE!"
-                handleClick={() => console.log("Starred!")}
+                handleClick={(e) => handleSubmit(e)}
+                type="button"
+              />
+              <GreenBtn
+                variant={1}
+                text="UNSTAR ROUTE!"
+                handleClick={(e) => handleRemoveStar(e)}
                 type="button"
               />
             </div>

@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Result from "../Molecules/Result";
+import axios from "../Atoms/Axios/axios";
 
 export default function Results({ items }) {
+
+  const [sortedItems, setSortedItems] = useState([]);
+
+  useEffect(() => {
+    sortByFilter();
+  })
+
   const sortArrayOfObjects = (arr, propertyName, order = "ascending") => {
     const sortedArr = arr.sort((a, b) => {
       if (a[propertyName] < b[propertyName]) {
@@ -18,7 +26,24 @@ export default function Results({ items }) {
     return sortedArr;
   };
 
-  const sortedItems = sortArrayOfObjects(items, "stars", "descending");
+  function sortByFilter() {
+    switch (localStorage.getItem("advancedValue")) {
+      case "Routes I Starred":
+        console.log("a");
+        break;
+      case "Most Starred Routes":
+        setSortedItems(sortArrayOfObjects(items, "stars", "descending"));
+        break;
+      case "Newest":
+        setSortedItems(items.reverse());
+        break;
+      case "Oldest":
+        setSortedItems(items);
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <div>
@@ -30,11 +55,11 @@ export default function Results({ items }) {
           </b>
         </p>
         {sortedItems
-          .filter(
-            (item) => item.difficulty === localStorage.getItem("diffValue")
+          .filter((item) =>
+            item.difficulty.includes(localStorage.getItem("diffValue"))
           )
-          .filter(
-            (item) => item.location === localStorage.getItem("locationValue")
+          .filter((item) =>
+            item.location.includes(localStorage.getItem("locationValue"))
           )
           .map((item) => (
             <Result key={item.id} currentRoute={item} />

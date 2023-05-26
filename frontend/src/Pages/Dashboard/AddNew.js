@@ -7,7 +7,7 @@ import Autocomplete from "react-google-autocomplete";
 import ImageUploading from "react-images-uploading";
 import GreenBtn from "../../Atoms/GreenBtn";
 import Select from "react-select";
-import "./Route.css";
+import "../../Styles/Route.css";
 import { checkUserToken } from "../../Atoms/checkToken.js";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
@@ -67,9 +67,6 @@ function AddNew({ variant }) {
         "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
       unit: "metric",
       profile: "mapbox/cycling",
-      controls: {
-        profileSwitcher: false,
-      },
     });
     map.current.addControl(directions, "top-left");
     directions.on("route", (event) => {
