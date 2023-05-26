@@ -1,4 +1,3 @@
-import "../src/Styles/App.css";
 import AuthLayout from "./Templates/Login";
 import MainLayout from "./Templates/Dashboard";
 import { AuthProvider } from "./Atoms/Auth/authProvider";

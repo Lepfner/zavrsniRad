@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Result from "../Molecules/Result";
-import axios from "../Atoms/Axios/axios";
 
 export default function Results({ items }) {
 

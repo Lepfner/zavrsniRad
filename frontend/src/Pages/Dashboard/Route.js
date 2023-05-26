@@ -12,7 +12,6 @@ import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-d
 function Route() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-
   mapboxgl.accessToken =
     "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g";
   const navigate = useNavigate();
@@ -30,7 +29,7 @@ function Route() {
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleAddStar = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -157,7 +156,7 @@ function Route() {
               <GreenBtn
                 variant={1}
                 text="STAR ROUTE!"
-                handleClick={(e) => handleSubmit(e)}
+                handleClick={(e) => handleAddStar(e)}
                 type="button"
               />
               <GreenBtn

@@ -26,7 +26,6 @@ function ProfileSetup() {
     isEmptyObject(userSet) ? initialData : userSet
   );
   let check;
-
   const [images, setImages] = useState([]);
   const maxNumber = 1;
 
