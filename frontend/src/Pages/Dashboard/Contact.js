@@ -23,10 +23,6 @@ export default function Settings() {
         "template_mu6s50h",
         form.current,
         "M-karua9jmM9OyLKr"
-      )
-      .then(
-        (result) => {},
-        (error) => {}
       );
   };
 

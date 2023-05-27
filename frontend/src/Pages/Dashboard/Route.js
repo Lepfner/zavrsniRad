@@ -84,6 +84,7 @@ function Route() {
   };
 
   function editRoute() {
+    localStorage.setItem("editedRouteId", window.location.href.slice(28, 41));
     navigate("/Edit");
     window.location.reload(false);
   }
@@ -92,11 +93,7 @@ function Route() {
     {
       original: "https://picsum.photos/id/1018/1000/600/",
       thumbnail: "https://picsum.photos/id/1018/250/150/",
-    },
-    {
-      original: "https://picsum.photos/id/1015/1000/600/",
-      thumbnail: "https://picsum.photos/id/1015/250/150/",
-    },
+    }
   ];
 
   useEffect(() => {
@@ -133,11 +130,6 @@ function Route() {
       controls: {
         profileSwitcher: false,
       },
-    });
-    map.current.on("click", (e) => {
-      console.log(
-        `A click event has occurred on a visible portion of the poi-label layer at ${e.lngLat}`
-      );
     });
     map.current.on("load", function () {
       directions.setOrigin([result.data.lng, result.data.lat]);

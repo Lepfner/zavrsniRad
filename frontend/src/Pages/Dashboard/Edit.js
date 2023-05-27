@@ -13,7 +13,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { diffOptions } from "../../Atoms/data";
 
-function AddNew() {
+function Edit() {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState([]);
@@ -26,19 +26,24 @@ function AddNew() {
     "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g";
   const [images, setImages] = useState([]);
 
-  const handleSubmit = async () => {
-    updateData({
-      difficulty: selectedOption.value,
-      user_id: parseInt(localStorage.getItem("currentUserId")),
-      images: images,
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    formData.difficulty = selectedOption.value;
+    formData.images = images;
     const toastId = toast.loading("Pending");
     try {
-      const formResponse = await axios.post(`/createNew`, formData);
-      toast.success("Created New Route!", { id: toastId });
+      const formResponse = await axios.post(`/edit`, formData);
+      toast.success("Edited Route!", { id: toastId });
       navigate(`/Profile/${formData.user_id}`);
     } catch (error) {
-      toast.error("An error occured", { id: toastId });
+      switch (error.response.status) {
+        case 401:
+          toast.error("Route not found!", { id: toastId });
+          break;
+        default:
+          toast.error("Error occured while editing route!", { id: toastId });
+          break;
+      }
     }
   };
 
@@ -47,11 +52,16 @@ function AddNew() {
   };
 
   useEffect(() => {
-    console.log(diffOptions);
     check = checkUserToken();
     if (!check) {
       return navigate("/login");
     }
+    let result;
+    const fetch = async () => {
+      result = await axios(`route/${localStorage.getItem("editedRouteId")}`);
+      setFormData(result.data);
+    };
+    fetch();
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -64,6 +74,10 @@ function AddNew() {
         "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
       unit: "metric",
       profile: "mapbox/cycling",
+    });
+    map.current.on("load", function () {
+      directions.setOrigin([result.data.lng, result.data.lat]);
+      directions.setDestination([result.data.endLng, result.data.endLat]);
     });
     map.current.addControl(directions, "top-left");
     directions.on("route", (event) => {
@@ -95,9 +109,9 @@ function AddNew() {
           <div className="flex justify-center items-center">
             <form
               className="flex justify-center items-center flex-col lg:w-full max-md:w-full"
-              onSubmit={handleSubmit}
+              onSubmit={(e) => handleSubmit(e)}
             >
-              <h1 className="text-3xl sm:text-4xl mb-4">Create new Route</h1>
+              <h1 className="text-3xl sm:text-4xl mb-4">Edit Route</h1>
               <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
                 Geography:
               </p>
@@ -160,13 +174,11 @@ function AddNew() {
                 {({
                   imageList,
                   onImageUpload,
-                  onImageRemoveAll,
                   onImageUpdate,
                   onImageRemove,
                   isDragging,
                   dragProps,
                 }) => (
-                  // write your building UI
                   <div className="upload__image-wrapper focus:outline-none h-40 px-2 rounded-lg bg-gray-300 mb-8 w-full sm:w-2/5">
                     <button
                       style={isDragging ? { color: "red" } : undefined}
@@ -195,8 +207,8 @@ function AddNew() {
               <div className="flex w-full justify-center lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
                 <GreenBtn
                   variant={1}
-                  text="CREATE"
-                  handleClick={() => handleSubmit()}
+                  text="SUBMIT"
+                  handleClick={(e) => handleSubmit(e)}
                   type="submit"
                 />
               </div>
@@ -207,4 +219,4 @@ function AddNew() {
     </div>
   );
 }
-export default AddNew;
+export default Edit;

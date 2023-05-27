@@ -8,15 +8,7 @@ import axios from "../../Atoms/Axios/axios";
 import Autocomplete from "react-google-autocomplete";
 import ImageUploading from "react-images-uploading";
 import { checkUserToken } from "../../Atoms/checkToken.js";
-
-const initialData = {
-  name: "",
-  surname: "",
-  username: "",
-  location: "",
-  profileimg: [],
-  about: "",
-};
+import { initialData } from "../../Atoms/data";
 
 function ProfileSetup() {
   const navigate = useNavigate();

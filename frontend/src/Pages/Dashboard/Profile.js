@@ -35,7 +35,6 @@ const ProfilePage = () => {
         );
         setRoutes(routeResult.data);
         setUser({ ...result.data });
-        console.log(userSet.profileimg.data);
       };
       fetch();
     } else {
