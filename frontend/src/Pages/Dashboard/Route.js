@@ -116,7 +116,7 @@ function Route() {
       style: "mapbox://styles/mapbox/streets-v12",
       center: [-70.9, 42.35],
       zoom: 9,
-      interactive: false,
+      interactive: true,
       controls: {
         profileSwitcher: false,
       },
@@ -126,7 +126,7 @@ function Route() {
         "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
       unit: "metric",
       profile: "mapbox/cycling",
-      interactive: false,
+      interactive: true,
       controls: {
         profileSwitcher: false,
       },
@@ -161,7 +161,7 @@ function Route() {
             <div className="w-full mb-8 flex flex-row justify-center">
               <div
                 ref={mapContainer}
-                className="map-container mapboxgl-canvas shadow-2xl"
+                className="map-container mapboxgl-canvas shadow-2xl mb-16"
               />
             </div>
             <div className="flex flex-col lg:flex-row w-full">

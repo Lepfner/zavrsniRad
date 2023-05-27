@@ -41,7 +41,7 @@ const Hamburger = () => {
           </Link>
           <Link
             onClick={() => setIsOpen(false)}
-            to="/Profile/:id"
+            to={`/Profile/${localStorage.getItem("currentUserId")}`}
             className="mb-10"
           >
             My Profile
