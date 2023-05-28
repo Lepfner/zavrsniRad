@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Result from "../Molecules/Result";
+import axios from "../Atoms/Axios/axios";
 
 export default function Results({ items }) {
 
@@ -7,7 +8,41 @@ export default function Results({ items }) {
 
   useEffect(() => {
     sortByFilter();
-  })
+  }, [items])
+
+  const fetchRouteIds = async () => {
+    try {
+      const response = await axios.post(
+        "/favRoutes",
+        JSON.stringify({
+          user_id: parseInt(localStorage.getItem("currentUserId")),
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data.map(obj => obj.route_id));
+      try {
+        const responseAfter = await axios.post(
+          "/getFavRoutes",
+          JSON.stringify({
+            itemIds: response.data.map(obj => obj.route_id),
+          }),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
+        console.log(responseAfter.data);
+        setSortedItems(responseAfter.data);
+      } catch (errAfter) {
+        console.log(errAfter);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const sortArrayOfObjects = (arr, propertyName, order = "ascending") => {
     const sortedArr = arr.sort((a, b) => {
@@ -28,7 +63,7 @@ export default function Results({ items }) {
   function sortByFilter() {
     switch (localStorage.getItem("advancedValue")) {
       case "Routes I Starred":
-        console.log("a");
+        fetchRouteIds();
         break;
       case "Most Starred Routes":
         setSortedItems(sortArrayOfObjects(items, "stars", "descending"));

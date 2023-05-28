@@ -207,7 +207,7 @@ router.post("/favRoutes", async (req, res) => {
 });
 
 router.post('/getFavRoutes', async (req, res) => {
-  console.log(req.body.id);
+  console.log(req.body.itemIds);
   try {
     const routes = await Route.findAll({
       attributes: [
@@ -226,7 +226,7 @@ router.post('/getFavRoutes', async (req, res) => {
         "user_id"
       ],
       where: {
-        id: req.body.id,
+        id: {[Sequelize.Op.in]: req.body.itemIds},
       },
     });
 
