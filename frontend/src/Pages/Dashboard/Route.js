@@ -17,6 +17,7 @@ function Route() {
   const navigate = useNavigate();
   const [fetchedRoute, setFetchedRoute] = useState([]);
   const [fetchedUser, setFetchedUser] = useState([]);
+  const [visible, setVisible] = useState(true);
   let check;
 
   async function deleteHandler(routeID) {
@@ -89,11 +90,27 @@ function Route() {
     window.location.reload(false);
   }
 
+  function toggleNav() {
+    if(visible){
+      const collection = document.getElementsByClassName("directions-control");
+      for (let i = 0; i < collection.length; i++) {
+        collection[i].style.display = "none";
+      }
+      setVisible(false);
+    } else {
+      const collection = document.getElementsByClassName("directions-control");
+      for (let i = 0; i < collection.length; i++) {
+        collection[i].style.display = "block";
+      }
+      setVisible(true);
+    }
+  }
+
   const images = [
     {
       original: "https://picsum.photos/id/1018/1000/600/",
       thumbnail: "https://picsum.photos/id/1018/250/150/",
-    }
+    },
   ];
 
   useEffect(() => {
@@ -155,6 +172,12 @@ function Route() {
                 variant={1}
                 text="UNSTAR ROUTE!"
                 handleClick={(e) => handleRemoveStar(e)}
+                type="button"
+              />
+              <GreenBtn
+                variant={1}
+                text="TOGGLE NAV!"
+                handleClick={() => toggleNav()}
                 type="button"
               />
             </div>

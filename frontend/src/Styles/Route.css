@@ -10,4 +10,8 @@
     height: 500px !important;
 }
 
+.directions-control{
+    display: block;
+}
+
 @import url('https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css');
