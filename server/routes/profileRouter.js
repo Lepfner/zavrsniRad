@@ -6,7 +6,7 @@ router.put("/setup/:id", async (req, res) => {
   try {
     const user = await User.update(
       {
-        profileimg: req.body.profileimg,
+        profileimg: req.body.profileimg[0].data_url,
         name: req.body.name,
         surname: req.body.surname,
         username: req.body.username,

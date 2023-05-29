@@ -36,7 +36,7 @@ function ProfileSetup() {
 
   const onChange = (imageList, addUpdateIndex) => {
     setImages(imageList);
-    formData.profileimg = images;
+    updateData({ profileimg: imageList })
   };
 
   useEffect(() => {
