@@ -31,6 +31,7 @@ function AddNew() {
       difficulty: selectedOption.value,
       user_id: parseInt(localStorage.getItem("currentUserId")),
       images: images,
+      lengthImg: images.length
     });
     const toastId = toast.loading("Pending");
     try {
@@ -47,7 +48,6 @@ function AddNew() {
   };
 
   useEffect(() => {
-    console.log(diffOptions);
     check = checkUserToken();
     if (!check) {
       return navigate("/login");
@@ -160,13 +160,11 @@ function AddNew() {
                 {({
                   imageList,
                   onImageUpload,
-                  onImageRemoveAll,
                   onImageUpdate,
                   onImageRemove,
                   isDragging,
                   dragProps,
                 }) => (
-                  // write your building UI
                   <div className="upload__image-wrapper focus:outline-none h-40 px-2 rounded-lg bg-gray-300 mb-8 w-full sm:w-2/5">
                     <button
                       style={isDragging ? { color: "red" } : undefined}

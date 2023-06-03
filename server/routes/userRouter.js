@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const Route = require("../models/route");
 const Starred = require("../models/starred");
+const Images = require("../models/image");
 const Sequelize = require("sequelize");
 
 router.get("/users/:id", async (req, res) => {
@@ -22,6 +23,20 @@ router.get("/route/:id", async (req, res) => {
       where: { id: req.params.id },
     });
     res.status(200).json(route);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/image/:id", async (req, res) => {
+  try {
+    const images = await Images.findAll({
+      attributes: [
+        "image"
+      ],
+      where: { route_id: req.params.id },
+    });
+    res.status(200).json(images);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -52,7 +67,6 @@ router.get("/routes", async (req, res) => {
         "stars",
         "difficulty",
         "dateAdded",
-        "images",
         "about",
         "user_id"
       ],
@@ -78,7 +92,6 @@ router.get("/search/:query", (req, res) => {
       "stars",
       "difficulty",
       "dateAdded",
-      "images",
       "about",
       "user_id"
     ],
@@ -119,12 +132,22 @@ router.post("/createNew", async (req, res) => {
         endLng: req.body.endLng,
         endLat: req.body.endLat,
         about: req.body.about,
-        images: req.body.images,
         stars: 0,
         difficulty: req.body.difficulty,
         user_id: req.body.user_id,
         dateAdded: Date.now(),
       });
+      for(let i=0;i<req.body.lengthImg; i++){
+        try{
+          const insertImage = await Images.create({
+            id: Date.now() + 1000,
+            route_id: newRoute.id,
+            image: req.body.images[i].data_url
+          })
+        } catch(error){
+          console.log(error);
+        }
+      }
       res.status(201).json(newRoute);
     } catch (err) {
       res.status(400).json({ message: err.message });
@@ -143,7 +166,6 @@ router.post("/edit", async (req, res) => {
       endLng: req.body.endLng,
       endLat: req.body.endLat,
       about: req.body.about,
-      images: req.body.images,
       difficulty: req.body.difficulty,
     },
     { where: { id: req.body.id }, returning: true, plain: true }
@@ -207,7 +229,6 @@ router.post("/favRoutes", async (req, res) => {
 });
 
 router.post('/getFavRoutes', async (req, res) => {
-  console.log(req.body.itemIds);
   try {
     const routes = await Route.findAll({
       attributes: [
@@ -221,7 +242,6 @@ router.post('/getFavRoutes', async (req, res) => {
         "stars",
         "difficulty",
         "dateAdded",
-        "images",
         "about",
         "user_id"
       ],
@@ -232,7 +252,6 @@ router.post('/getFavRoutes', async (req, res) => {
 
     res.json(routes);
   } catch (error) {
-    console.error('Error:', error.message);
     res.status(500).json({ error: 'An error occurred' });
   }
 });

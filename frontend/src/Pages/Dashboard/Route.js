@@ -17,7 +17,9 @@ function Route() {
   const navigate = useNavigate();
   const [fetchedRoute, setFetchedRoute] = useState([]);
   const [fetchedUser, setFetchedUser] = useState([]);
+  const [fetchedImage, setFetchedImage] = useState([]);
   const [visible, setVisible] = useState(true);
+  const [renderComponent, setRenderComponent] = useState(false);
   let check;
 
   async function deleteHandler(routeID) {
@@ -91,7 +93,7 @@ function Route() {
   }
 
   function toggleNav() {
-    if(visible){
+    if (visible) {
       const collection = document.getElementsByClassName("directions-control");
       for (let i = 0; i < collection.length; i++) {
         collection[i].style.display = "none";
@@ -106,25 +108,45 @@ function Route() {
     }
   }
 
-  const images = [
+  let images = [
     {
       original: "https://picsum.photos/id/1018/1000/600/",
       thumbnail: "https://picsum.photos/id/1018/250/150/",
     },
   ];
 
+  function formatImages(arrLength, data) {
+    if (localStorage.getItem("runOnce") === "1") {
+      for (let i = 0; i < arrLength; i++) {
+        images.push({
+          original: data[i].image,
+          thumbnail: data[i].image,
+        });
+      }
+      localStorage.setItem("runOnce", "0");
+    }
+    console.log(images);
+    setFetchedImage(images);
+  }
+
   useEffect(() => {
     check = checkUserToken();
     if (!check) {
       return navigate("/login");
     }
+    const timer = setTimeout(() => {
+      setRenderComponent(true);
+    }, 500);
+    localStorage.setItem("runOnce", "1");
     var currentId = window.location.href.slice(28, 41);
-    let result, userResult;
+    let result, userResult, imageResult;
     const fetch = async () => {
       result = await axios(`route/${currentId}`);
       setFetchedRoute(result.data);
       userResult = await axios(`users/${result.data.user_id}`);
       setFetchedUser(userResult.data);
+      imageResult = await axios(`image/${currentId}`);
+      formatImages(imageResult.data.length, imageResult.data);
     };
     fetch();
     if (map.current) return;
@@ -153,6 +175,9 @@ function Route() {
       directions.setDestination([result.data.endLng, result.data.endLat]);
     });
     map.current.addControl(directions, "top-left");
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -203,11 +228,13 @@ function Route() {
                   <div>{fetchedRoute.about}</div>
                 </div>
               </div>
-              <ImageGallery
-                showThumbnails={false}
-                additionalClass="w-full lg:w-1/2"
-                items={images}
-              />
+              {renderComponent ? (
+                <ImageGallery
+                  showThumbnails={false}
+                  additionalClass="w-full lg:w-1/2"
+                  items={fetchedImage}
+                />
+              ) : null}
             </div>
             {localStorage.getItem("currentUserId") === fetchedRoute.user_id && (
               <div className="w-full flex flex-row justify-evenly">

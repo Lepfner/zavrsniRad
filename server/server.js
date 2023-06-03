@@ -13,7 +13,7 @@ sequelize
   .then(() => console.log("Database connected!"))
   .catch((err) => console.log("Error: " + err));
 
-app.use(bodyParser.json());
+  app.use(bodyParser.json({limit: '50mb', type: 'application/json'}));
 
 app.use(credentials);
 app.use(cors(corsOptions));

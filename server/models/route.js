@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../config/database");
-const { DataTypes } = require('sequelize');
 
 const Route = sequelize.define(
   "route",
@@ -44,11 +43,6 @@ const Route = sequelize.define(
     },
     about: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false,
-    },
-    images: {
-      type: DataTypes.BLOB('long'),
       required: true,
       allowNull: false,
     },
