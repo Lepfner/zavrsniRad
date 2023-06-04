@@ -42,6 +42,20 @@ router.get("/image/:id", async (req, res) => {
   }
 });
 
+router.get("/imageOne/:id", async (req, res) => {
+  try {
+    const images = await Images.findOne({
+      attributes: [
+        "image"
+      ],
+      where: { route_id: req.params.id },
+    });
+    res.status(200).json(images);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get("/userRoutes/:user_id", async (req, res) => {
   try {
     const route = await Route.findAll({

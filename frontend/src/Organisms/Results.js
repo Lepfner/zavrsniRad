@@ -22,7 +22,6 @@ export default function Results({ items }) {
           withCredentials: true,
         }
       );
-      console.log(response.data.map(obj => obj.route_id));
       try {
         const responseAfter = await axios.post(
           "/getFavRoutes",
@@ -34,7 +33,6 @@ export default function Results({ items }) {
             withCredentials: true,
           }
         );
-        console.log(responseAfter.data);
         setSortedItems(responseAfter.data);
       } catch (errAfter) {
         console.log(errAfter);
