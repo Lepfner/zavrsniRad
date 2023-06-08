@@ -28,8 +28,11 @@ function Edit() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    formData.difficulty = selectedOption.value;
-    formData.images = images;
+    updateData({
+      difficulty: selectedOption.value,
+      images: images,
+      lengthImg: images.length
+    });
     const toastId = toast.loading("Pending");
     try {
       const formResponse = await axios.post(`/edit`, formData);

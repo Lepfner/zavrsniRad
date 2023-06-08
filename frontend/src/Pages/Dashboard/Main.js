@@ -32,7 +32,7 @@ export default function Main() {
 
   return (
     <div className="font-custom h-full w-full flex flex-col items-center">
-      <div className="mt-10 sm:mt-20 flex flex-col sm:flex-row items-center justify-start sm:items-start sm:justify-center gap-4 bg-gray-500 w-11/12 sm:w-2/3 p-4 rounded-lg shadow-xl">
+      <div className="mt-10 sm:mt-20 flex flex-col sm:flex-row items-center justify-start sm:items-start sm:justify-center gap-4 bg-gray-200 w-11/12 sm:w-2/3 p-4 rounded-lg shadow-xl">
         <div className="flex flex-col w-full sm:w-2/6">
           <GreenBtn
             text="Add New"

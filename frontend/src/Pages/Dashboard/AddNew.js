@@ -26,7 +26,8 @@ function AddNew() {
     "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g";
   const [images, setImages] = useState([]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     updateData({
       difficulty: selectedOption.value,
       user_id: parseInt(localStorage.getItem("currentUserId")),
