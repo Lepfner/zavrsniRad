@@ -182,18 +182,6 @@ router.post("/edit", async (req, res) => {
       },
       { where: { id: req.body.id }, returning: true, plain: true }
     );
-    await Images.destroy({ where: { route_id: req.body.id } });
-    for (let i = 0; i < req.body.lengthImg; i++) {
-      try {
-        const insertImage = await Images.create({
-          id: Date.now() + 1000,
-          route_id: req.body.id,
-          image: req.body.images[i].data_url,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
     res.status(201).json(newRoute);
   } catch (err) {
     res.status(400).json({ message: err.message });

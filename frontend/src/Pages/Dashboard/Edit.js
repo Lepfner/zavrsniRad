@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "../../Atoms/Axios/axios";
 import Autocomplete from "react-google-autocomplete";
-import ImageUploading from "react-images-uploading";
 import GreenBtn from "../../Atoms/GreenBtn";
 import Select from "react-select";
 import "../../Styles/Route.css";
@@ -24,14 +23,11 @@ function Edit() {
 
   mapboxgl.accessToken =
     "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g";
-  const [images, setImages] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     updateData({
       difficulty: selectedOption.value,
-      images: images,
-      lengthImg: images.length
     });
     const toastId = toast.loading("Pending");
     try {
@@ -48,10 +44,6 @@ function Edit() {
           break;
       }
     }
-  };
-
-  const onChange = (imageList, addUpdateIndex) => {
-    setImages(imageList);
   };
 
   useEffect(() => {
@@ -164,49 +156,6 @@ function Edit() {
                 options={diffOptions}
                 className="focus:outline-none h-14 px-2 rounded-lg mb-8 w-full lg:w-4/5 md:w-4/5"
               />
-              <p className=" lg:text-3xl mb-2 md:text-2xl sm:text-xl">
-                Images:
-              </p>
-              <ImageUploading
-                multiple
-                value={images}
-                onChange={onChange}
-                maxNumber={10}
-                dataURLKey="data_url"
-              >
-                {({
-                  imageList,
-                  onImageUpload,
-                  onImageUpdate,
-                  onImageRemove,
-                  isDragging,
-                  dragProps,
-                }) => (
-                  <div className="upload__image-wrapper focus:outline-none h-40 px-2 rounded-lg bg-gray-300 mb-8 w-full sm:w-2/5">
-                    <button
-                      style={isDragging ? { color: "red" } : undefined}
-                      onClick={onImageUpload}
-                      {...dragProps}
-                    >
-                      Click or Drop here
-                    </button>
-                    &nbsp;
-                    {imageList.map((image, index) => (
-                      <div key={index} className="image-item">
-                        <img src={image["data_url"]} alt="" width="100" />
-                        <div className="image-item__btn-wrapper">
-                          <button onClick={() => onImageUpdate(index)}>
-                            Update
-                          </button>
-                          <button onClick={() => onImageRemove(index)}>
-                            Remove
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </ImageUploading>
               <div className="flex w-full justify-center lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
                 <GreenBtn
                   variant={1}
