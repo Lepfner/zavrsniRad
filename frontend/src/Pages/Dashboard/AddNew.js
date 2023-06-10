@@ -198,6 +198,12 @@ function AddNew() {
                   handleClick={() => handleSubmit()}
                   type="submit"
                 />
+                <GreenBtn
+                  variant={1}
+                  text="UPLOAD GPX FILE"
+                  handleClick={() => console.log("Upload file")}
+                  type="submit"
+                />
               </div>
             </form>
           </div>
