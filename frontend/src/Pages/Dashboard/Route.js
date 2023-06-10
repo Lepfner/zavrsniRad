@@ -177,7 +177,7 @@ function Route() {
 
   return (
     <div className="font-custom mt-10 sm:mt-20 w-full flex flex-col items-center justify-between">
-      <div className="h-full mb-10 flex flex-col justify-center max-w-[100%] sm:max-w-[70%] outline outline-green-400 outline-[1rem] rounded-xl z-0 w-[100%]">
+      <div className="h-full mb-10 flex flex-col justify-center max-w-[100%] sm:max-w-[70%] outline bg-white outline-green-400 outline-[1rem] rounded-xl z-0 w-[100%]">
         <div className="w-full rounded-xl p-12 z-10">
           <div className="flex flex-col items-center">
             <h1 className="text-3xl mb-4">{fetchedRoute.name}</h1>

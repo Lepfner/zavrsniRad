@@ -29,7 +29,7 @@ export default function Settings() {
   return (
     <>
       <div className="font-custom w-full flex justify-center items-center mt-10">
-        <div className="outline outline-green-400 outline-[1rem] w-3/4 p-3 rounded-2xl text-center flex items-center shadow-2xl flex-col md:flex-row">
+        <div className="outline bg-white outline-green-400 outline-[1rem] w-3/4 p-3 rounded-2xl text-center flex items-center shadow-2xl flex-col md:flex-row">
           <div className="md:w-5/12 w-full flex flex-col items-center md:border-r border-0 text-skin-a11y">
             <h1 className="bg-skin-primary text-3xl mt-10 mb-10">
               Report a problem:

@@ -107,7 +107,7 @@ function Edit() {
   return (
     <div className="font-custom mt-10 sm:mt-20 w-full flex flex-col items-center justify-between">
       <Toaster />
-      <div className="h-full flex flex-col mb-24 justify-center max-w-[100%] sm:max-w-[60%] outline outline-green-400 outline-[1rem] rounded-xl z-0 w-[100%]">
+      <div className="h-full flex flex-col mb-24 justify-center max-w-[100%] sm:max-w-[60%] outline bg-white outline-green-400 outline-[1rem] rounded-xl z-0 w-[100%]">
         <div className="w-full rounded-xl p-12 z-10">
           <div className="flex justify-center items-center">
             <form
