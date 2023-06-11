@@ -125,6 +125,7 @@ router.get("/search/:query", (req, res) => {
 });
 
 router.delete("/delete/:id", async (req, res) => {
+  await Starred.destroy({ where: { route_id: req.params.id } });
   await Route.destroy({ where: { id: req.params.id } });
   await Images.destroy({ where: { route_id: req.params.id } });
   res
@@ -161,6 +162,7 @@ router.post("/createNew", async (req, res) => {
     }
     res.status(201).json(newRoute);
   } catch (err) {
+    console.log(err);
     res.status(400).json({ message: err.message });
   }
 });

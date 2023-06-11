@@ -13,7 +13,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import * as MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { diffOptions } from "../../Atoms/data";
 
-function AddNew() {
+function Upload() {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState([]);
@@ -54,6 +54,30 @@ function AddNew() {
     reader.onload = async (e) => { 
       const text = JSON.parse(e.target.result);
       console.log(text);
+      if (map.current) return;
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/streets-v12",
+        center: [-70.9, 42.35],
+        zoom: 9,
+      });
+      var directions = new MapboxDirections({
+        accessToken:
+          "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
+        unit: "metric",
+        profile: "mapbox/cycling",
+      });
+      map.current.on("load", function () {
+        directions.setOrigin([text.geometry.coordinates[0][0], text.geometry.coordinates[0][1]]);
+        directions.setDestination([text.geometry.coordinates[1][0], text.geometry.coordinates[1][1]]);
+      });
+      updateData({
+        lat: text.geometry.coordinates[0][1],
+        endLat: text.geometry.coordinates[1][1],
+        lng: text.geometry.coordinates[0][0],
+        endLng: text.geometry.coordinates[1][0],
+      });
+      map.current.addControl(directions, "top-left");
     };
     reader.readAsText(e.target.files[0])
   }
@@ -63,33 +87,6 @@ function AddNew() {
     if (!check) {
       return navigate("/login");
     }
-    if (map.current) return;
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
-      center: [-70.9, 42.35],
-      zoom: 9,
-    });
-    var directions = new MapboxDirections({
-      accessToken:
-        "pk.eyJ1IjoibGVwZm5lciIsImEiOiJjbGhwNWhkajUxdnZpM2VveDRobnNiNzhtIn0.fz4tTHyEsxz5PHN-yvN70g",
-      unit: "metric",
-      profile: "mapbox/cycling",
-    });
-    map.current.addControl(directions, "top-left");
-    directions.on("route", (event) => {
-      const route = event.route;
-      const waypoints = route[0].legs[0].steps.map((step) => ({
-        lng: step.maneuver.location[0],
-        lat: step.maneuver.location[1],
-      }));
-      updateData({
-        lat: waypoints[0].lat,
-        endLat: waypoints[waypoints.length - 1].lat,
-        lng: waypoints[0].lng,
-        endLng: waypoints[waypoints.length - 1].lng,
-      });
-    });
   }, []);
 
   const updateData = (fields) => {
@@ -226,4 +223,4 @@ function AddNew() {
     </div>
   );
 }
-export default AddNew;
+export default Upload;

@@ -17,6 +17,7 @@ import Profile from "./Pages/Dashboard/Profile";
 import BikeRoute from "./Pages/Dashboard/Route";
 import New from "./Pages/Dashboard/AddNew";
 import Edit from './Pages/Dashboard/Edit';
+import Upload from './Pages/Dashboard/Upload';
 import ProfileSetup from "./Pages/ProfileSetup/profileSetup";
 import Success from "./Pages/ProfileSetup/Success";
 import { Toaster } from "react-hot-toast";
@@ -49,6 +50,7 @@ function App() {
               <Route path="/Profile/:id" element={<Profile />} />
               <Route path="/Route/:id" element={<BikeRoute />} />
               <Route path="/New" element={<New />} />
+              <Route path="/Upload" element={<Upload />} />
               <Route path="/Edit" element={<Edit />} />
             </Route>
           </Route>

@@ -40,6 +40,13 @@ export default function Main() {
             type="button"
             handleClick={() => navigate("/New")}
           />
+          <br/>
+          <GreenBtn
+            text="Upload a route"
+            variant={2}
+            type="button"
+            handleClick={() => navigate("/Upload")}
+          />
           <Filter />
         </div>
         <div className="flex flex-col w-full sm:w-4/6 mb-4">
