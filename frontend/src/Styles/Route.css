@@ -1,0 +1,17 @@
+.map-container{
+    width: 100% !important;
+    position: relative !important;
+    height: 500px !important;
+}
+
+.mapboxgl-canvas{
+    width: 100% !important;
+    position: relative !important;
+    height: 500px !important;
+}
+
+.directions-control{
+    display: block;
+}
+
+@import url('https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css');

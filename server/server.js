@@ -13,19 +13,17 @@ sequelize
   .then(() => console.log("Database connected!"))
   .catch((err) => console.log("Error: " + err));
 
-app.use(bodyParser.json());
+  app.use(bodyParser.json({limit: '50mb', type: 'application/json'}));
 
 app.use(credentials);
 app.use(cors(corsOptions));
-
-const adminsRouter = require("./routes/api/admins");
-app.use("/", adminsRouter);
-const authsRouter = require("./routes/api/auths");
+ 
+const authsRouter = require("./routes/authRouter");
 app.use("/", authsRouter);
-const profileRouter = require("./routes/api/profileSetup");
+const profileRouter = require("./routes/profileRouter");
 app.use("/", profileRouter);
-const likesDislikesRouter = require("./routes/api/likesDislikes")
-app.use("/", likesDislikesRouter);
+const userRouter = require("./routes/userRouter");
+app.use("/", userRouter);
 app.listen(PORT, console.log(`Server started on http://localhost:${PORT}`));
 
 app.get("/", (req, res) => res.send("index"));

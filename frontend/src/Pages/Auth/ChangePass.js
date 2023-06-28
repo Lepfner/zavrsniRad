@@ -2,12 +2,12 @@ import SuccessPage from "./SuccessPage";
 import axios from "../../Atoms/Axios/axios";
 import useAuth from "../../Atoms/Auth/useAuth";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import GreenBtn from "../../Atoms/GreenBtn";
 
-const SignUp = () => {
-  const [email, setEmail] = useState("");
+const ChangePass = () => {
+  var email = `${localStorage.getItem("searchedUser")}`;
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
@@ -23,33 +23,30 @@ const SignUp = () => {
     const toastId = toast.loading("Pending");
     try {
       const response = await axios.post(
-        "/register",
+        `/changepass`,
         JSON.stringify({ email, password }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
-      toast.success("Successful registration!", { id: toastId });
-      setIsRegistered(true);
+      toast.success("Password changed!", { id: toastId });
       setIsLoggedIn(true);
+      setIsRegistered(true);
       localStorage.setItem("isLoggedIn", true);
       const { id } = response?.data;
-      localStorage.setItem("currentUserId", id);
       setAuth({ email, password, id });
-      navigate("/Setup");
+      navigate("/Main");
     } catch (err) {
-      console.log(err.response.status);
       switch (err.response.status) {
-        case 500:
-          toast.error("Email already taken!", { id: toastId });
+        case 401:
+          toast.error("User not found", { id: toastId });
           break;
         default:
-          toast.error("SignUp error", { id: toastId });
+          toast.error("Password change error", { id: toastId });
           break;
       }
     }
-    setEmail("");
     setPassword("");
     setPasswordConfirm("");
   };
@@ -61,24 +58,14 @@ const SignUp = () => {
     >
       {!isRegistered ? (
         <>
-          <h1 className="lg:text-6xl mb-2 md: text-5xl sm: text-4xl">
-            SIGN-UP:
+          <h1 className="lg:text-6xl mb-6 md: text-5xl sm: text-4xl">
+            NEW PASSWORD:
           </h1>
           <div
             className="w-full flex flex-col lg:text-lg md:flex-row text-base 
                        sm:flex-col "
           >
-            <form className="lg: w-4/5 max-md:w-full" onSubmit={handleSubmit}>
-              <p>E-mail:</p>
-              <input
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                className={`${
-                  email !== "" ? `validate` : ""
-                } h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5`}
-              />
+            <form className="lg:w-4/5 max-md:w-full" onSubmit={handleSubmit}>
               <p>Password:</p>
               <input
                 required
@@ -89,7 +76,7 @@ const SignUp = () => {
                 type="password"
                 className={`${
                   password !== "" ? `validate` : ""
-                } h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5`}
+                } h-14 px-2 rounded-lg bg-gray-300 mb-6 w-full lg:w-4/5 md:w-4/5`}
               />
               <p>Confirm password:</p>
               <input
@@ -101,14 +88,20 @@ const SignUp = () => {
                 type="password"
                 className={`${
                   passwordConfirm !== "" ? `validate` : ""
-                } h-14 px-2 rounded-lg bg-gray-300 mb-8 w-full lg:w-4/5 md:w-4/5`}
+                } h-14 px-2 rounded-lg bg-gray-300 mb-6 w-full lg:w-4/5 md:w-4/5`}
               />
               <div className="flex  lg:gap-8 flex-row md:flex-row gap-2 max-sm:flex-col ">
                 <GreenBtn
                   variant={1}
-                  text="SIGN-UP"
+                  text="RESET"
                   handleClick={() => handleSubmit()}
                   type="Submit"
+                />
+                <GreenBtn
+                  variant={1}
+                  text="BACK"
+                  handleClick={() => navigate("/Recovery")}
+                  type="button"
                 />
               </div>
             </form>
@@ -116,17 +109,17 @@ const SignUp = () => {
               className=" flex flex-col items-center border-solid border-2 border-t-green-400 sm:border-t-0 sm:border-l-green-400 
           lg:h-80 pt-6 md:w-2/5 max-sm:h-auto pt-0 mt-4"
             >
-              <p className="underline mb-4 font-bold w-4/5 lg:pl-4 max-sm:pl-0">
-                <Link to="/Login">Login with existing account</Link>
+              <p className="mb-4 font-bold w-4/5 lg:pl-4 max-sm:pl-0">
+                Please select a new password that you will use for this account
               </p>
             </div>
           </div>
         </>
       ) : (
-        <SuccessPage type="Registration" />
+        <SuccessPage type="password reset" />
       )}
     </div>
   );
 };
 
-export default SignUp;
+export default ChangePass;

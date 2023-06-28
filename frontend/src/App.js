@@ -1,6 +1,6 @@
-import "../src/Styles/App.css";
 import AuthLayout from "./Templates/Login";
-import { AuthProvider } from "./Atoms/authProvider";
+import MainLayout from "./Templates/Dashboard";
+import { AuthProvider } from "./Atoms/Auth/authProvider";
 import {
   Login,
   SignUp,
@@ -8,8 +8,18 @@ import {
   RequireAuth,
   Recovery,
   Unauthorized,
+  ChangePass,
 } from "./Pages/Auth";
 import ErrorPage from "./Pages/404";
+import Contact from "./Pages/Dashboard/Contact";
+import Dashboard from "./Pages/Dashboard/Main";
+import Profile from "./Pages/Dashboard/Profile";
+import BikeRoute from "./Pages/Dashboard/Route";
+import New from "./Pages/Dashboard/AddNew";
+import Edit from './Pages/Dashboard/Edit';
+import Upload from './Pages/Dashboard/Upload';
+import ProfileSetup from "./Pages/ProfileSetup/profileSetup";
+import Success from "./Pages/ProfileSetup/Success";
 import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 
@@ -23,21 +33,26 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/SignUp" element={<SignUp />} />
-            <Route path="/Confirmation" element={<Confirmation />} />
+            <Route path="/Confirm" element={<Confirmation />} />
             <Route path="/Recovery" element={<Recovery />} />
             <Route path="*" element={<ErrorPage />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
-            {/*
-            <Route element={<RequireAuth requireUser={true}/>}>
+            <Route path="/reset" element={<ChangePass />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/Setup" element={<ProfileSetup />} />
+            <Route path="/Success" element={<Success />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route element={<MainLayout />}>
+              <Route path="/Contact" element={<Contact />} />
               <Route path="/Main" element={<Dashboard />} />
-              <Route path="/Setup" element={<ProfileSetup />} />
-              <Route path="/MyProfile" element={<MyProfilePage />} />
-              <Route path="/Profile/:id" element={<UserProfile />} />
-            </Route> 
-            <Route element={<RequireAuth />}>
-              <Route path="/Settings" element={<Settings />} />
+              <Route path="/Profile/:id" element={<Profile />} />
+              <Route path="/Route/:id" element={<BikeRoute />} />
+              <Route path="/New" element={<New />} />
+              <Route path="/Upload" element={<Upload />} />
+              <Route path="/Edit" element={<Edit />} />
             </Route>
-          */}
           </Route>
         </Routes>
       </BrowserRouter>
