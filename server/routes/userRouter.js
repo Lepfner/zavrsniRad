@@ -125,9 +125,9 @@ router.get("/search/:query", (req, res) => {
 });
 
 router.delete("/delete/:id", async (req, res) => {
+  await Images.destroy({ where: { route_id: req.params.id } });
   await Starred.destroy({ where: { route_id: req.params.id } });
   await Route.destroy({ where: { id: req.params.id } });
-  await Images.destroy({ where: { route_id: req.params.id } });
   res
     .status(200)
     .json({ message: `route ${req.params.id} was successfully deleted!` });
